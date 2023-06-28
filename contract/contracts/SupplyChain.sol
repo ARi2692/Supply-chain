@@ -4,6 +4,8 @@ pragma solidity >=0.8.2 <0.9.0;
 
 /**
  * @title Supply chain
+ * @author Arundhati
+ * @notice You can use this contract for tracking the product from farmer to the consumer
  * @dev Supply chain system aims to monitor and trace food products
  */
 contract SupplyChain {
@@ -22,28 +24,23 @@ contract SupplyChain {
     }
 
     struct Farmer {
-        // uint256 farmerID;
         uint256 productIndex;
         uint256 dateTimeDelivered;
     }
 
-    // to distribution after processing
     struct Manufacturer {
-        // uint256 manufacturerID;
         uint256 productIndex;
-        uint256 dateTimeDelivered;
+        uint256 dateTimeDelivered; // to distribution after processing
         uint256 temperature;
     }
 
     struct Processor {
-        // uint256 productIndex;
         bool qualityCheck;
         bool saferToConsume;
         uint256 safeAboveAge;
     }
 
     struct DistributionCompany {
-        // uint256 distrubutorCompanyID;
         uint256 productIndex;
         uint256 temperature;
         uint256 ordersReceived;
@@ -52,7 +49,6 @@ contract SupplyChain {
     }
 
     struct DistributionCentre {
-        // uint256 distrubutorCentreID;
         uint256 productIndex;
         uint256 temperature;
         uint256 ordersReceived;
@@ -61,7 +57,6 @@ contract SupplyChain {
     }
 
     struct DeliveryTruck {
-        // uint256 deliveryTruckID;
         uint256 productIndex;
         uint256 temperature;
         uint256 Volume;
@@ -69,7 +64,6 @@ contract SupplyChain {
     }
 
     struct Retailer {
-        // uint256 retailerID;
         uint256 productIndex;
         uint256 temperature;
         uint256 Volume;
@@ -78,15 +72,13 @@ contract SupplyChain {
 
     // check will be made regarding dateTimeReceived, temperature, standards and all
     struct Consumer {
-        // uint256 productIndex;
-        // uint256 temperature;
-        // uint256 dateTimeReceived;
         uint256 unitsReceivedWithinStd;
         uint256 receivedWithinStd;
         uint256 unitsReceivedOutsideStd;
         uint256 receivedOutsideStd;
     }
 
+    // array of products 
     Product[] private products;
 
     // farmerID mapped to farmer
@@ -114,50 +106,67 @@ contract SupplyChain {
     mapping(uint256 => Consumer) private customers;
 
     /**
-     * @dev Store value in variable
-     * @param num which
+     * @notice farmer inputs the details when deliveried to the manufacturer Company
+     * @dev farmer inputs details and adds the product details
      */
-    function dairyManufacturerDetails(uint num) public pure returns(uint) {
+    function farmerDetails() external pure {
         //
     }
 
     /**
-     * @dev Store value in variable
-     * @param num which
+     * @notice processor inputs the details when deliveried to the manufacturer Company
+     * @dev processor inputs details before manufacturer
      */
-    function distributionCompanyDetails(uint num) public pure returns(uint) {
+    function processorDetails() external pure {
         //
     }
 
     /**
-     * @dev Store value in variable
-     * @param num which
+     * @notice manufacturer inputs the details when deliveried to the Distribution Company
+     * @dev manufacturer inputs details after processor inputs
      */
-    function distributionCentreDetails(uint num) public pure returns(uint) {
+    function manufacturerDetails() external pure {
+        //
+    }
+
+
+    /**
+     * @notice distribution Company inputs the details 
+     * @dev distributor inputs details when it received
+     */
+    function distributionCompanyDetails() external pure  {
         //
     }
 
     /**
-     * @dev Store value in variable
-     * @param num which
+     * @notice distribution Centre inputs the details 
+     * @dev distributor inputs details when it received
      */
-    function deliveryTruckDetails(uint num) public pure returns(uint) {
+    function distributionCentreDetails() external pure {
         //
     }
 
     /**
-     * @dev Store value in variable
-     * @param num which
+     * @notice delivery Truck inputs the details 
+     * @dev delivery Truck inputs details when Delivery starts
      */
-    function retailerDetails(uint num) public pure returns(uint) {
+    function deliveryTruckDetails() external pure {
         //
     }
 
     /**
-     * @dev Store value in variable
-     * @param num which
+     * @notice retailer inputs the details 
+     * @dev retailer inputs details when received
      */
-    function consumerDetails(uint num) public pure returns(uint) {
+    function retailerDetails() public pure  {
+        //
+    }
+
+    /**
+     * @notice consumer inputs the details 
+     * @dev consumer inputs details when received
+     */
+    function consumerDetails() public pure {
         //
     }
 
