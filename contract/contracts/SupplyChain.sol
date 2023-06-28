@@ -28,7 +28,7 @@ contract SupplyChain {
 
     struct Manufacturer {
         uint256 manufacturerID;
-        uint256 productIndex;
+        // uint256 productIndex;
         uint256 dateTimeDelivered; // to distribution after processing
         uint256 temperature;
     }
@@ -111,7 +111,7 @@ contract SupplyChain {
     /**
      * @notice farmer inputs the details when deliveried to the manufacturer Company
      * @dev farmer inputs details and adds the product details
-     * @ param - farmer ID, product Name, origin, batch Number, expiry Date, total Volume, temperature Limit, instructions
+     * @param _farmerID, _productName, _origin, _batchNo, _expiryDate, _totalVolume, _temperatureLimit, _instructions
      */
     function farmerDetails(
         uint256 _farmerID,
@@ -144,17 +144,38 @@ contract SupplyChain {
     /**
      * @notice processor inputs the details when deliveried to the manufacturer Company
      * @dev processor inputs details before manufacturer
+     * @param _productID, _qualityCheck, _saferToConsume, _safeAboveAge
      */
-    function processorDetails() external pure {
-        //
+    function processorDetails(
+        uint256 _productID,
+        bool _qualityCheck,
+        bool _saferToConsume,
+        uint256 _safeAboveAge
+    ) external {
+        require(products.length>_productID, "Product doesnot exist");
+        processors[_productID] = Processor({
+            qualityCheck: _qualityCheck,
+            saferToConsume: _saferToConsume,
+            safeAboveAge: _safeAboveAge
+        });
     }
 
     /**
      * @notice manufacturer inputs the details when deliveried to the Distribution Company
      * @dev manufacturer inputs details after processor inputs
+     * @param _manufacturerID, _productID, _temperature
      */
-    function manufacturerDetails() external pure {
-        //
+    function manufacturerDetails(
+        uint256 _manufacturerID,
+        uint256 _productID,
+        uint256 _temperature
+    ) external  {
+        require(products.length>_productID, "Product doesnot exist");
+        manufacturers[_productID] = Manufacturer({
+            manufacturerID: _manufacturerID,
+            dateTimeDelivered: block.timestamp,
+            temperature: _temperature
+        });
     }
 
     /**
