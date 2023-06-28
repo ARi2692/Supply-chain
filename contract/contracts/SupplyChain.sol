@@ -41,44 +41,42 @@ contract SupplyChain {
 
     struct DistributionCompany {
         uint256 distrubutorCompanyID;
-        uint256 productIndex;
+        // uint256 productIndex;
         uint256 temperature;
         uint256 ordersReceived;
-        uint256 Volume;
+        uint256 volume;
         uint256 dateTimeReceived;
     }
 
     struct DistributionCentre {
         uint256 distrubutorCentreID;
-        uint256 productIndex;
+        // uint256 productIndex;
         uint256 temperature;
         uint256 ordersReceived;
-        uint256 Volume;
+        uint256 volume;
         uint256 dateTimeReceived;
     }
 
     struct DeliveryTruck {
         uint256 deliveryTruckID;
-        uint256 productIndex;
+        // uint256 productIndex;
         uint256 temperature;
-        uint256 Volume;
+        uint256 volume;
         uint256 dateTimeStartedDelivering;
     }
 
     struct Retailer {
         uint256 retailerID;
-        uint256 productIndex;
+        // uint256 productIndex;
         uint256 temperature;
-        uint256 Volume;
+        uint256 volume;
         uint256 dateTimeReceived;
     }
 
     // check will be made regarding dateTimeReceived, temperature, standards and all
     struct Consumer {
         uint256 unitsReceivedWithinStd;
-        uint256 receivedWithinStd;
         uint256 unitsReceivedOutsideStd;
-        uint256 receivedOutsideStd;
     }
 
     // array of products
@@ -181,40 +179,99 @@ contract SupplyChain {
     /**
      * @notice distribution Company inputs the details
      * @dev distributor inputs details when it received
+     * @param _distrubutorCompanyID, _productID, _temperature, _ordersReceived, _volume
      */
-    function distributionCompanyDetails() external pure {
-        //
+    function distributionCompanyDetails(
+        uint256 _distrubutorCompanyID,
+        uint256 _productID,
+        uint256 _temperature,
+        uint256 _ordersReceived,
+        uint256 _volume
+    ) external  {
+        require(products.length>_productID, "Product doesnot exist");
+        distributionCompanies[_productID] = DistributionCompany({
+            distrubutorCompanyID: _distrubutorCompanyID,
+            temperature: _temperature,
+            ordersReceived: _ordersReceived,
+            volume: _volume,
+            dateTimeReceived: block.timestamp
+        });
     }
 
     /**
      * @notice distribution Centre inputs the details
      * @dev distributor inputs details when it received
+     * @param _distrubutorCentreID, _productID, _temperature, _ordersReceived, _volume
      */
-    function distributionCentreDetails() external pure {
-        //
+    function distributionCentreDetails(
+        uint256 _distrubutorCentreID,
+        uint256 _productID,
+        uint256 _temperature,
+        uint256 _ordersReceived,
+        uint256 _volume
+    ) external  {
+        require(products.length>_productID, "Product doesnot exist");
+        distributionCentres[_productID] = DistributionCentre({
+            distrubutorCentreID: _distrubutorCentreID,
+            temperature: _temperature,
+            ordersReceived: _ordersReceived,
+            volume: _volume,
+            dateTimeReceived: block.timestamp
+        });
     }
 
     /**
      * @notice delivery Truck inputs the details
      * @dev delivery Truck inputs details when Delivery starts
+     * @param _deliveryTruckID, _productID, _temperature, _volume
      */
-    function deliveryTruckDetails() external pure {
-        //
+    function deliveryTruckDetails(
+        uint256 _deliveryTruckID,
+        uint256 _productID,
+        uint256 _temperature,
+        uint256 _volume
+    ) external  {
+        require(products.length>_productID, "Product doesnot exist");
+        deliveryTrucks[_productID] = DeliveryTruck({
+            deliveryTruckID: _deliveryTruckID,
+            temperature: _temperature,
+            volume: _volume,
+            dateTimeStartedDelivering: block.timestamp
+        });
     }
 
     /**
      * @notice retailer inputs the details
      * @dev retailer inputs details when received
+     * @param _retailerID, _productID, _temperature, _volume
      */
-    function retailerDetails() public pure {
-        //
+    function retailerDetails(
+        uint256 _retailerID,
+        uint256 _productID,
+        uint256 _temperature,
+        uint256 _volume
+    ) external {
+        require(products.length>_productID, "Product doesnot exist");
+        retailers[_productID] = Retailer({
+            retailerID: _retailerID,
+            temperature: _temperature,
+            volume: _volume,
+            dateTimeReceived: block.timestamp
+        });
     }
 
     /**
      * @notice consumer inputs the details
      * @dev consumer inputs details when received
+     * @param _productID, _unitsReceived, _temperature, _satisfied
      */
-    function consumerDetails() public pure {
-        //
+    function consumerDetails(uint256 _productID, uint256 _unitsReceived, uint256 _temperature, bool _satisfied) external {
+        require(products.length>_productID, "Product doesnot exist");
+        // or can be used as bool satsfied with the product condition 
+        if (_temperature < products[_productID].idealTemperature && products[_productID].expiryDate > block.timestamp && _satisfied ) {
+            customers[_productID].unitsReceivedWithinStd += _unitsReceived;
+        } else {
+            customers[_productID].unitsReceivedOutsideStd += _unitsReceived;
+        }
     }
 }
