@@ -1,0 +1,58 @@
+.header {
+  text-align: center;
+}
+
+h1 {
+  color: #5c7942;
+  margin: 0;
+}
+
+h4 {
+  margin: 0;
+  color: #8c6284;
+}
+
+.float-container {
+  overflow: hidden;
+  height: 17vh;
+  justify-content: center;
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.float-child-left {
+  margin-left: 20px;
+  margin-top: 5px;
+  width: 45%;
+  float: left;
+  padding: 10px;
+  background-color: rgb(212, 237, 213);
+}
+
+.float-child-left:hover {
+  background-color: #d1ede1;
+}
+
+.float-child-right {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 5px;
+  width: 45%;
+  float: right;
+  padding: 10px;
+  background-color: rgb(212, 237, 213);
+}
+
+.float-child-right:hover {
+  background-color: #d1ede1;
+}
+
+.lottie-lend {
+  width: 55%;
+  padding-left: 120px;
+}
+
+.lottie-borrow {
+  width: 40%;
+  padding-left: 180px;
+}
