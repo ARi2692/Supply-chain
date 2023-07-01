@@ -179,46 +179,18 @@ const Manufacturer = () => {
         />
       </div>
 
-      <div className="manufacturer-ID-container">
-        <h3> Product Name </h3>
-        <Input
-          type="text"
-          id="name"
-          value={formInput.productName}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              productName: e.target.value,
-            }))}
-          required
-        />
-      </div>
+      
 
       <div className="manufacturer-ID-container">
-        <h3> Origin </h3>
-        <Input
-          type="text"
-          id="origin"
-          value={formInput.origin}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              origin: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="manufacturer-ID-container">
-        <h3> batch Number </h3>
+        <h3> product ID </h3>
         <Input
           type="number"
-          id="batchNo"
-          value={formInput.batchNo}
+          id="productID"
+          value={formInput.productID}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              batchNo: e.target.value,
+              productID: e.target.value,
             }))}
           required
         />
