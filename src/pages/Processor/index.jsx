@@ -80,11 +80,11 @@ const SubmitButtonBack = styled.button`
 const Processor = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const [token, setToken] = useState("");
-  const [processorTime, setProcessorTime] = useState(0);
-  const [processorAmount, setProcessorAmount] = useState(0);
-  const [interestIndex, setInterestIndex] = useState("");
-  const [allowed, setAllowed] = useState(false);
+  // const [token, setToken] = useState("");
+  // const [processorTime, setProcessorTime] = useState(0);
+  // const [processorAmount, setProcessorAmount] = useState(0);
+  // const [interestIndex, setInterestIndex] = useState("");
+  // const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
     // processorID: 0,
     productID: 0,

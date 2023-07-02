@@ -80,20 +80,16 @@ const SubmitButtonBack = styled.button`
 const DeliveryTruck = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const [token, setToken] = useState("");
-  const [deliveryTruckTime, setDeliveryTruckTime] = useState(0);
-  const [deliveryTruckAmount, setDeliveryTruckAmount] = useState(0);
-  const [interestIndex, setInterestIndex] = useState("");
-  const [allowed, setAllowed] = useState(false);
+  // const [token, setToken] = useState("");
+  // const [deliveryTruckTime, setDeliveryTruckTime] = useState(0);
+  // const [deliveryTruckAmount, setDeliveryTruckAmount] = useState(0);
+  // const [interestIndex, setInterestIndex] = useState("");
+  // const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
     deliveryTruckID: 0,
-    productName: "",
-    origin: "",
-    batchNo: 0,
-    expiryDate: 0,
-    totalVolume: 0,
-    temperatureLimit: 0,
-    instructions:""
+    productID: 0,
+    temperature: 0,
+    volume: 0
   });
 
   // const handleChange = (event) => {
@@ -116,22 +112,17 @@ const DeliveryTruck = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (!formInput?.deliveryTruckID || 
-        !formInput?.productName || 
-        !formInput?.origin || 
-        !formInput?.batchNo ||
-        !formInput?.expiryDate || 
-        !formInput?.totalVolume || 
-        !formInput?.temperatureLimit || 
-        !formInput?.instructions
+        !formInput?.productID || 
+        !formInput?.temperature || 
+        !formInput?.volume
       ) {
       toast.fail("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with deliveryTruck:",
-      formInput?.deliveryTruckID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
-      formInput?.instructions);
+      formInput?.deliveryTruckID, formInput?.productID, formInput?.temperature, 
+      formInput?.volume);
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -144,9 +135,8 @@ const DeliveryTruck = () => {
     );
 
     const tx = await contract.deliveryTruckDetails(
-      formInput?.deliveryTruckID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
-      formInput?.instructions
+      formInput?.deliveryTruckID, formInput?.productID, formInput?.temperature, 
+      formInput?.volume
     );
 
     // transaction for contract
@@ -178,107 +168,47 @@ const DeliveryTruck = () => {
           required
         />
       </div>
-
-      <div className="deliveryTruck-ID-container">
-        <h3> Product Name </h3>
+      
+      <div className="distributionCompany-ID-container">
+        <h3> Product ID </h3>
         <Input
-          type="text"
-          id="name"
-          value={formInput.productName}
+          type="number"
+          id="ID"
+          value={formInput.productID}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              productName: e.target.value,
+              productID: e.target.value,
             }))}
           required
         />
       </div>
 
-      <div className="deliveryTruck-ID-container">
-        <h3> Origin </h3>
-        <Input
-          type="text"
-          id="origin"
-          value={formInput.origin}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              origin: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="deliveryTruck-ID-container">
-        <h3> batch Number </h3>
+      <div className="distributionCompany-ID-container">
+        <h3> volume </h3>
         <Input
           type="number"
           id="batchNo"
-          value={formInput.batchNo}
+          value={formInput.volume}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              batchNo: e.target.value,
+              volume: e.target.value,
             }))}
           required
         />
       </div>
 
-      <div className="deliveryTruck-ID-container">
-        <h3> Expiry Date </h3>
-        <Input
-          type="number"
-          id="_expiryDate"
-          value={formInput.expiryDate}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              expiryDate: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="deliveryTruck-ID-container">
-        <h3> Total Volume </h3>
-        <Input
-          type="number"
-          id="totalVolume"
-          value={formInput.totalVolume}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              totalVolume: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="deliveryTruck-ID-container">
-        <h3> Temperature Limit </h3>
+      <div className="distributionCompany-ID-container">
+        <h3> Temperature </h3>
         <Input
           type="number"
           id="temperatureLimit"
-          value={formInput.temperatureLimit}
+          value={formInput.temperature}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              temperatureLimit: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="deliveryTruck-ID-container">
-        <h3> Instructions </h3>
-        <Input
-          type="text"
-          id="instructions"
-          value={formInput.instructions}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              instructions: e.target.value,
+              temperature: e.target.value,
             }))}
           required
         />
