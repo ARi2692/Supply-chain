@@ -80,26 +80,12 @@ const SubmitButtonBack = styled.button`
 const Consumer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  // const [token, setToken] = useState("");
-  // const [consumerTime, setConsumerTime] = useState(0);
-  // const [consumerAmount, setConsumerAmount] = useState(0);
-  // const [interestIndex, setInterestIndex] = useState("");
-  // const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
     productID: 0,
     unitsReceived: 0,
     temperature: 0,
     satisfied: false
   });
-
-  // const handleChange = (event) => {
-  //   if (event.target.value === "GLD") {
-  //     console.log("in token");
-  //     setToken("0xe028608d419e628b64b39283115665aAe5BaEb71");
-  //   } else {
-  //     setToken("0xf7201c9505Af8307587eDDe8a864387D8e5f96Ab");
-  //   }
-  // };
 
 
   const formatBigNumber = (bn) => {
@@ -204,7 +190,7 @@ const Consumer = () => {
       <div className="consumer-ID-container">
         <h3> satisfied </h3>
         <Input
-          type="text"
+          type="checkbox"
           id="satisfied"
           value={formInput.satisfied}
           onChange={(e) =>

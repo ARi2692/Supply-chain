@@ -80,11 +80,6 @@ const SubmitButtonBack = styled.button`
 const Processor = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  // const [token, setToken] = useState("");
-  // const [processorTime, setProcessorTime] = useState(0);
-  // const [processorAmount, setProcessorAmount] = useState(0);
-  // const [interestIndex, setInterestIndex] = useState("");
-  // const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
     // processorID: 0,
     productID: 0,
@@ -92,16 +87,6 @@ const Processor = () => {
     saferToConsume: false,
     safeAboveAge: 0
   });
-
-  // const handleChange = (event) => {
-  //   if (event.target.value === "GLD") {
-  //     console.log("in token");
-  //     setToken("0xe028608d419e628b64b39283115665aAe5BaEb71");
-  //   } else {
-  //     setToken("0xf7201c9505Af8307587eDDe8a864387D8e5f96Ab");
-  //   }
-  // };
-
 
   const formatBigNumber = (bn) => {
     const divideBy = new BigNumber("10").pow(new BigNumber(18));
@@ -173,8 +158,8 @@ const Processor = () => {
       <div className="processor-ID-container">
         <h3> quality Check </h3>
         <Input
-          type="text"
-          id="name"
+          type="checkbox"
+          id="Check"
           value={formInput.qualityCheck}
           onChange={(e) =>
             updateFormInput((formInput) => ({
@@ -188,8 +173,8 @@ const Processor = () => {
       <div className="processor-ID-container">
         <h3> safer To Consume </h3>
         <Input
-          type="text"
-          id="origin"
+          type="checkbox"
+          id="safer"
           value={formInput.saferToConsume}
           onChange={(e) =>
             updateFormInput((formInput) => ({

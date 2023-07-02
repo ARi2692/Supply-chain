@@ -80,11 +80,6 @@ const SubmitButtonBack = styled.button`
 const Farmer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const [token, setToken] = useState("");
-  const [farmerTime, setFarmerTime] = useState(0);
-  const [farmerAmount, setFarmerAmount] = useState(0);
-  const [interestIndex, setInterestIndex] = useState("");
-  const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
     farmerID: 0,
     productName: "",
@@ -95,15 +90,6 @@ const Farmer = () => {
     temperatureLimit: 0,
     instructions:""
   });
-
-  // const handleChange = (event) => {
-  //   if (event.target.value === "GLD") {
-  //     console.log("in token");
-  //     setToken("0xe028608d419e628b64b39283115665aAe5BaEb71");
-  //   } else {
-  //     setToken("0xf7201c9505Af8307587eDDe8a864387D8e5f96Ab");
-  //   }
-  // };
 
 
   const formatBigNumber = (bn) => {
@@ -227,8 +213,8 @@ const Farmer = () => {
       <div className="farmer-ID-container">
         <h3> Expiry Date </h3>
         <Input
-          type="number"
-          id="_expiryDate"
+          type="date"
+          id="expiryDate"
           value={formInput.expiryDate}
           onChange={(e) =>
             updateFormInput((formInput) => ({
