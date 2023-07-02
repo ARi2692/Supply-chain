@@ -6,12 +6,12 @@ import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Farmer from "./pages/Farmer";
 import Manufacturer from "./pages/Manufacturer";
-import Processor from "./pages/Processor";
-import DistributionCompany from "./pages/DistributionCompany";
-import DistributionCentre from "./pages/DistributionCentre";
-import DeliveryTruck from "./pages/DeliveryTruck";
-import Consumer from "./pages/Consumer";
-import Retailer from "./pages/Retailer";
+// import Processor from "./pages/Processor";
+// import DistributionCompany from "./pages/DistributionCompany";
+// import DistributionCentre from "./pages/DistributionCentre";
+// import DeliveryTruck from "./pages/DeliveryTruck";
+// import Consumer from "./pages/Consumer";
+// import Retailer from "./pages/Retailer";
 
 import '@rainbow-me/rainbowkit/styles.css';
 import {
@@ -65,12 +65,12 @@ function App() {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/farmer" element={<Farmer />} />
             <Route exact path="/manufacturer" element={<Manufacturer />} />
-            <Route exact path="/processor" element={<Processor />} />
+            {/* <Route exact path="/processor" element={<Processor />} />
             <Route exact path="/distributionCompany" element={<DistributionCompany />} />
             <Route exact path="/distributionCentre" element={<DistributionCentre />} />
             <Route exact path="/deliveryTruck" element={<DeliveryTruck />} />
             <Route exact path="/retailer" element={<Retailer />} />
-            <Route exact path="/consumer" element={<Consumer />} />
+            <Route exact path="/consumer" element={<Consumer />} /> */}
           </Routes>
         </RainbowKitProvider>
       </WagmiConfig>

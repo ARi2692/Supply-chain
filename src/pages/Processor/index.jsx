@@ -86,14 +86,11 @@ const Processor = () => {
   const [interestIndex, setInterestIndex] = useState("");
   const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
-    processorID: 0,
-    productName: "",
-    origin: "",
-    batchNo: 0,
-    expiryDate: 0,
-    totalVolume: 0,
-    temperatureLimit: 0,
-    instructions:""
+    // processorID: 0,
+    productID: 0,
+    qualityCheck: false,
+    saferToConsume: false,
+    safeAboveAge: 0
   });
 
   // const handleChange = (event) => {
@@ -115,23 +112,18 @@ const Processor = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.processorID || 
-        !formInput?.productName || 
-        !formInput?.origin || 
-        !formInput?.batchNo ||
-        !formInput?.expiryDate || 
-        !formInput?.totalVolume || 
-        !formInput?.temperatureLimit || 
-        !formInput?.instructions
+    if (!formInput?.productID || 
+        !formInput?.qualityCheck || 
+        !formInput?.saferToConsume || 
+        !formInput?.safeAboveAge
       ) {
       toast.fail("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with processor:",
-      formInput?.processorID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
-      formInput?.instructions);
+      formInput?.productID, formInput?.qualityCheck, formInput?.saferToConsume, 
+      formInput?.safeAboveAge);
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -144,9 +136,8 @@ const Processor = () => {
     );
 
     const tx = await contract.processorDetails(
-      formInput?.processorID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
-      formInput?.instructions
+      formInput?.productID, formInput?.qualityCheck, formInput?.saferToConsume, 
+      formInput?.safeAboveAge
     );
 
     // transaction for contract
@@ -165,120 +156,60 @@ const Processor = () => {
       </div>
 
       <div className="processor-ID-container">
-        <h3> processor ID </h3>
+        <h3> Product ID </h3>
         <Input
           type="number"
           id="ID"
-          value={formInput.processorID}
+          value={formInput.productID}
           onChange={(e) =>
           updateFormInput((formInput) => ({
             ...formInput,
-            processorID: e.target.value,
+            productID: e.target.value,
           }))}
           required
         />
       </div>
 
       <div className="processor-ID-container">
-        <h3> Product Name </h3>
+        <h3> quality Check </h3>
         <Input
           type="text"
           id="name"
-          value={formInput.productName}
+          value={formInput.qualityCheck}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              productName: e.target.value,
+              qualityCheck: e.target.value,
             }))}
           required
         />
       </div>
 
       <div className="processor-ID-container">
-        <h3> Origin </h3>
+        <h3> safer To Consume </h3>
         <Input
           type="text"
           id="origin"
-          value={formInput.origin}
+          value={formInput.saferToConsume}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              origin: e.target.value,
+              saferToConsume: e.target.value,
             }))}
           required
         />
       </div>
 
       <div className="processor-ID-container">
-        <h3> batch Number </h3>
+        <h3> safe Above Age </h3>
         <Input
           type="number"
           id="batchNo"
-          value={formInput.batchNo}
+          value={formInput.safeAboveAge}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              batchNo: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="processor-ID-container">
-        <h3> Expiry Date </h3>
-        <Input
-          type="number"
-          id="_expiryDate"
-          value={formInput.expiryDate}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              expiryDate: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="processor-ID-container">
-        <h3> Total Volume </h3>
-        <Input
-          type="number"
-          id="totalVolume"
-          value={formInput.totalVolume}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              totalVolume: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="processor-ID-container">
-        <h3> Temperature Limit </h3>
-        <Input
-          type="number"
-          id="temperatureLimit"
-          value={formInput.temperatureLimit}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              temperatureLimit: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="processor-ID-container">
-        <h3> Instructions </h3>
-        <Input
-          type="text"
-          id="instructions"
-          value={formInput.instructions}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              instructions: e.target.value,
+              safeAboveAge: e.target.value,
             }))}
           required
         />

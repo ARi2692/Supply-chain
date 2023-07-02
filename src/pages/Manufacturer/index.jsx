@@ -80,30 +80,11 @@ const SubmitButtonBack = styled.button`
 const Manufacturer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const [token, setToken] = useState("");
-  const [manufacturerTime, setManufacturerTime] = useState(0);
-  const [manufacturerAmount, setManufacturerAmount] = useState(0);
-  const [interestIndex, setInterestIndex] = useState("");
-  const [allowed, setAllowed] = useState(false);
   const [formInput, updateFormInput] = useState({
     manufacturerID: 0,
-    productName: "",
-    origin: "",
-    batchNo: 0,
-    expiryDate: 0,
-    totalVolume: 0,
-    temperatureLimit: 0,
-    instructions:""
+    productID: 0,
+    temperature: 0
   });
-
-  // const handleChange = (event) => {
-  //   if (event.target.value === "GLD") {
-  //     console.log("in token");
-  //     setToken("0xe028608d419e628b64b39283115665aAe5BaEb71");
-  //   } else {
-  //     setToken("0xf7201c9505Af8307587eDDe8a864387D8e5f96Ab");
-  //   }
-  // };
 
 
   const formatBigNumber = (bn) => {
@@ -116,22 +97,15 @@ const Manufacturer = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (!formInput?.manufacturerID || 
-        !formInput?.productName || 
-        !formInput?.origin || 
-        !formInput?.batchNo ||
-        !formInput?.expiryDate || 
-        !formInput?.totalVolume || 
-        !formInput?.temperatureLimit || 
-        !formInput?.instructions
+        !formInput?.productID || 
+        !formInput?.temperature
       ) {
       toast.fail("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with manufacturer:",
-      formInput?.manufacturerID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
-      formInput?.instructions);
+      formInput?.manufacturerID, formInput?.productID, formInput?.temperature);
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -144,9 +118,7 @@ const Manufacturer = () => {
     );
 
     const tx = await contract.manufacturerDetails(
-      formInput?.manufacturerID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
-      formInput?.instructions
+      formInput?.manufacturerID, formInput?.productID, formInput?.temperature
     );
 
     // transaction for contract
@@ -197,60 +169,15 @@ const Manufacturer = () => {
       </div>
 
       <div className="manufacturer-ID-container">
-        <h3> Expiry Date </h3>
+        <h3> Temperature </h3>
         <Input
           type="number"
-          id="_expiryDate"
-          value={formInput.expiryDate}
+          id="temperature"
+          value={formInput.temperature}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              expiryDate: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="manufacturer-ID-container">
-        <h3> Total Volume </h3>
-        <Input
-          type="number"
-          id="totalVolume"
-          value={formInput.totalVolume}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              totalVolume: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="manufacturer-ID-container">
-        <h3> Temperature Limit </h3>
-        <Input
-          type="number"
-          id="temperatureLimit"
-          value={formInput.temperatureLimit}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              temperatureLimit: e.target.value,
-            }))}
-          required
-        />
-      </div>
-
-      <div className="manufacturer-ID-container">
-        <h3> Instructions </h3>
-        <Input
-          type="text"
-          id="instructions"
-          value={formInput.instructions}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              instructions: e.target.value,
+              temperature: e.target.value,
             }))}
           required
         />
