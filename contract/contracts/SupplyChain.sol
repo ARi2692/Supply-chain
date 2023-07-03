@@ -109,7 +109,14 @@ contract SupplyChain {
     /**
      * @notice farmer inputs the details when deliveried to the manufacturer Company
      * @dev farmer inputs details and adds the product details
-     * @param _farmerID, _productName, _origin, _batchNo, _expiryDate, _totalVolume, _temperatureLimit, _instructions
+     * @param _farmerID - farmer ID
+     * @param _productName - the product name
+     * @param _origin - the origin place of the product
+     * @param _batchNo - batch number
+     * @param _expiryDate - expiry date of the product
+     * @param _totalVolume - total volume deliveried to the manufacturer
+     * @param _temperatureLimit - the temperature limit below which the product should be kept
+     * @param _instructions - any additional instructions provided by the farmer
      */
     function farmerDetails(
         uint256 _farmerID,
@@ -142,7 +149,10 @@ contract SupplyChain {
     /**
      * @notice processor inputs the details when deliveried to the manufacturer Company
      * @dev processor inputs details before manufacturer
-     * @param _productID, _qualityCheck, _saferToConsume, _safeAboveAge
+     * @param _productID - product ID
+     * @param _qualityCheck - true if the quality check is passed and cleared
+     * @param _saferToConsume - true if certified as safer to consume
+     * @param _safeAboveAge - the age above which it is safe to consume
      */
     function processorDetails(
         uint256 _productID,
@@ -161,7 +171,9 @@ contract SupplyChain {
     /**
      * @notice manufacturer inputs the details when deliveried to the Distribution Company
      * @dev manufacturer inputs details after processor inputs
-     * @param _manufacturerID, _productID, _temperature
+     * @param _manufacturerID - Manufacturer ID
+     * @param _productID - the product ID 
+     * @param _temperature - the temperature at the time of delivery
      */
     function manufacturerDetails(
         uint256 _manufacturerID,
@@ -179,7 +191,11 @@ contract SupplyChain {
     /**
      * @notice distribution Company inputs the details
      * @dev distributor inputs details when it received
-     * @param _distrubutorCompanyID, _productID, _temperature, _ordersReceived, _volume
+     * @param _distrubutorCompanyID - distrubutor Company ID
+     * @param _productID - the product ID 
+     * @param _temperature - the temperature at the time of delivery
+     * @param _ordersReceived - number of orders received
+     * @param _volume - the volume it received
      */
     function distributionCompanyDetails(
         uint256 _distrubutorCompanyID,
@@ -201,7 +217,11 @@ contract SupplyChain {
     /**
      * @notice distribution Centre inputs the details
      * @dev distributor inputs details when it received
-     * @param _distrubutorCentreID, _productID, _temperature, _ordersReceived, _volume
+     * @param _distrubutorCentreID - distrubutor Centre ID
+     * @param _productID - the product ID 
+     * @param _temperature - the temperature when received
+     * @param _ordersReceived - number of orders received
+     * @param _volume - the volume it received
      */
     function distributionCentreDetails(
         uint256 _distrubutorCentreID,
@@ -223,7 +243,10 @@ contract SupplyChain {
     /**
      * @notice delivery Truck inputs the details
      * @dev delivery Truck inputs details when Delivery starts
-     * @param _deliveryTruckID, _productID, _temperature, _volume
+     * @param _deliveryTruckID - delivery Truck ID
+     * @param _productID - the product ID 
+     * @param _temperature - the temperature when started with delivery
+     * @param _volume - the volume it received
      */
     function deliveryTruckDetails(
         uint256 _deliveryTruckID,
@@ -243,7 +266,10 @@ contract SupplyChain {
     /**
      * @notice retailer inputs the details
      * @dev retailer inputs details when received
-     * @param _retailerID, _productID, _temperature, _volume
+     * @param _retailerID - Retailer ID
+     * @param _productID - the product ID 
+     * @param _temperature - the temperature when received
+     * @param _volume - the volume it received
      */
     function retailerDetails(
         uint256 _retailerID,
@@ -263,7 +289,10 @@ contract SupplyChain {
     /**
      * @notice consumer inputs the details
      * @dev consumer inputs details when received
-     * @param _productID, _unitsReceived, _temperature, _satisfied
+     * @param _productID - the product ID 
+     * @param _unitsReceived - units it received
+     * @param _temperature - the temperature when received
+     * @param _satisfied - true if satisfied with the product 
      */
     function consumerDetails(uint256 _productID, uint256 _unitsReceived, uint256 _temperature, bool _satisfied) external {
         require(products.length>_productID, "Product doesnot exist");
