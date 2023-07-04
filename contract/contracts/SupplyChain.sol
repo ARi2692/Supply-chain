@@ -303,4 +303,9 @@ contract SupplyChain {
             customers[_productID].unitsReceivedOutsideStd += _unitsReceived;
         }
     }
+
+    function getProduct(uint256 _productID) external view returns(Product memory productDetails) {
+        require(products.length>_productID, "Product doesnot exist");
+        productDetails = products[_productID];
+    }
 }

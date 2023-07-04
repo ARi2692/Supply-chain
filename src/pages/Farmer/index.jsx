@@ -8,6 +8,7 @@ import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.j
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
 import { Link } from "react-router-dom";
+import moment from 'moment'
 
 // const Select = styled.select`
 //   color: #333; /* Secondary color */
@@ -119,6 +120,8 @@ const Farmer = () => {
       formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
       formInput?.instructions);
 
+    var unixTimestamp = moment(formInput?.expiryDate, 'YYYY.MM.DD').unix();
+
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
@@ -131,7 +134,7 @@ const Farmer = () => {
 
     const tx = await contract.farmerDetails(
       formInput?.farmerID, formInput?.productName, formInput?.origin, formInput?.batchNo,
-      formInput?.expiryDate, formInput?.totalVolume, formInput?.temperatureLimit,
+      unixTimestamp, formInput?.totalVolume, formInput?.temperatureLimit,
       formInput?.instructions
     );
 
