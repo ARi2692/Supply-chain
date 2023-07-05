@@ -100,28 +100,28 @@ const Manufacturer = () => {
     return divided.toFixed(0, BigNumber.ROUND_DOWN);
   };
 
-  const handleCheck = async (event) => {
-    event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.productID) {
-      toast.fail("Please fill all the fields!");
-      return;
-    }
-    console.log("Form submitted with manufacturer:", formInput?.productID);
+  // const handleCheck = async (event) => {
+  //   event.preventDefault(); // Prevents form submission and page refresh
+  //   if (!formInput?.productID) {
+  //     toast.fail("Please fill all the fields!");
+  //     return;
+  //   }
+  //   console.log("Form submitted with manufacturer:", formInput?.productID);
 
-    await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
-    const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
-    const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
-    const contract = new ethers.Contract(
-      getConfigByChain(chain?.id)[0].supplyChainAddress,
-      SupplyChain.abi,
-      signer
-    );
+  //   await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
+  //   const signer = provider.getSigner();
+  //   console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
+  //   const contract = new ethers.Contract(
+  //     getConfigByChain(chain?.id)[0].supplyChainAddress,
+  //     SupplyChain.abi,
+  //     signer
+  //   );
 
-    const tx = await contract.getProduct(formInput?.productID-1);
-    setProduct(tx);
-    setProductFound(true);
-  };
+  //   const tx = await contract.getProduct(formInput?.productID-1);
+  //   setProduct(tx);
+  //   setProductFound(true);
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
@@ -183,13 +183,16 @@ const Manufacturer = () => {
 
       {productFound && 
       <>
-      <p>{`Product Name : ${product.productName}`}</p>
+      {/* <p>{`Product Name : ${product.productName}`}</p>
       <p>{`Product origin : ${product.origin}`}</p>
       <p>{`Product instructions : ${product.instructions}`}</p>
       <p>{`Product idealTemperature : ${product.idealTemperature}`}</p>
       <p>{`Product batchNo : ${product.batchNo}`}</p>
       <p>{`Product expiryDate : ${product.expiryDate}`}</p>
-      <p>{`Product totalVolume : ${product.totalVolume}`}</p>
+      <p>{`Product totalVolume : ${product.totalVolume}`}</p> */}
+
+      {/* product component */}
+
       <div className="manufacturer-ID-container">
         <h3> manufacturer ID </h3>
         <Input
