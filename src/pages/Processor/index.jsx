@@ -5,9 +5,10 @@ import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 import BigNumber from "bignumber.js";
 import { Link } from "react-router-dom";
+import Product from "../../components/getProduct";
 
 // const Select = styled.select`
 //   color: #333; /* Secondary color */
@@ -80,6 +81,7 @@ const SubmitButtonBack = styled.button`
 const Processor = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     // processorID: 0,
     productID: 0,
@@ -93,6 +95,16 @@ const Processor = () => {
     const converted = new BigNumber(bn.toString());
     const divided = converted.div(divideBy);
     return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  };
+
+  const handleCheck = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (!formInput?.productID) {
+      toast.fail("Please fill all the fields!");
+      return;
+    }
+    console.log("Form submitted with manufacturer:", formInput?.productID);
+    setProductFound(true);
   };
 
   const handleSubmit = async (event) => {
@@ -127,7 +139,8 @@ const Processor = () => {
 
     // transaction for contract
     toast.success("Creating block... Please Wait", { icon: "👏" });
-    const receipt = await provider
+    console.log("logged !")
+    await provider
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
         toast.success("Processor details logged Successfully !!");
@@ -154,6 +167,10 @@ const Processor = () => {
           required
         />
       </div>
+
+      {productFound &&
+      <>
+      < Product productID={formInput.productID} />
 
       <div className="processor-ID-container">
         <h3> quality Check </h3>
@@ -199,6 +216,8 @@ const Processor = () => {
           required
         />
       </div>
+      </> 
+      }
 
       <div className="submit-buttons">
       <div>
@@ -207,6 +226,17 @@ const Processor = () => {
         </Link>
       </div>
 
+      {!productFound && 
+      <div>
+      <div className="processor-submit">
+        <div onClick={handleCheck}>
+          <SubmitButton type="submit">Check</SubmitButton>
+        </div>
+      </div>
+      </div>
+      }
+
+      {productFound && 
       <div>
         <div className="processor-submit">
           <div onClick={handleSubmit}>
@@ -214,6 +244,7 @@ const Processor = () => {
           </div>
         </div>
       </div>
+      }
 
       </div>
 

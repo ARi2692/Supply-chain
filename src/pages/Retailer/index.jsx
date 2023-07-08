@@ -67,7 +67,7 @@ const SubmitButton = styled.button`
 // `;
 
 const SubmitButtonBack = styled.button`
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   color: #696969;
   padding: 10px 20px;
   font-size: 1.5rem;
@@ -80,34 +80,49 @@ const SubmitButtonBack = styled.button`
 const Retailer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     retailerID: 0,
     productID: 0,
     temperature: 0,
-    volume: 0
+    volume: 0,
   });
 
-  const formatBigNumber = (bn) => {
-    const divideBy = new BigNumber("10").pow(new BigNumber(18));
-    const converted = new BigNumber(bn.toString());
-    const divided = converted.div(divideBy);
-    return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  // const formatBigNumber = (bn) => {
+  //   const divideBy = new BigNumber("10").pow(new BigNumber(18));
+  //   const converted = new BigNumber(bn.toString());
+  //   const divided = converted.div(divideBy);
+  //   return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  // };
+
+  const handleCheck = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (!formInput?.productID) {
+      toast.fail("Please fill all the fields!");
+      return;
+    }
+    console.log("Form submitted with manufacturer:", formInput?.productID);
+    setProductFound(true);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.retailerID || 
-        !formInput?.productID || 
-        !formInput?.temperature || 
-        !formInput?.volume
-      ) {
+    if (
+      !formInput?.retailerID ||
+      !formInput?.productID ||
+      !formInput?.temperature ||
+      !formInput?.volume
+    ) {
       toast.fail("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with retailer:",
-      formInput?.retailerID, formInput?.productID, formInput?.temperature, 
-      formInput?.volume);
+      formInput?.retailerID,
+      formInput?.productID,
+      formInput?.temperature,
+      formInput?.volume
+    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -120,7 +135,9 @@ const Retailer = () => {
     );
 
     const tx = await contract.retailerDetails(
-      formInput?.retailerID, formInput?.productID, formInput?.temperature, 
+      formInput?.retailerID,
+      formInput?.productID,
+      formInput?.temperature,
       formInput?.volume
     );
 
@@ -146,10 +163,11 @@ const Retailer = () => {
           id="ID"
           value={formInput.retailerID}
           onChange={(e) =>
-          updateFormInput((formInput) => ({
-            ...formInput,
-            retailerID: e.target.value,
-          }))}
+            updateFormInput((formInput) => ({
+              ...formInput,
+              retailerID: e.target.value,
+            }))
+          }
           required
         />
       </div>
@@ -164,58 +182,76 @@ const Retailer = () => {
             updateFormInput((formInput) => ({
               ...formInput,
               productID: e.target.value,
-            }))}
+            }))
+          }
           required
         />
       </div>
 
-      <div className="distributionCompany-ID-container">
-        <h3> volume </h3>
-        <Input
-          type="number"
-          id="batchNo"
-          value={formInput.volume}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              volume: e.target.value,
-            }))}
-          required
-        />
-      </div>
+      {productFound && (
+        <>
+          <Product productID={formInput.productID} />
+          <div className="distributionCompany-ID-container">
+            <h3> volume </h3>
+            <Input
+              type="number"
+              id="batchNo"
+              value={formInput.volume}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  volume: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
 
-      <div className="distributionCompany-ID-container">
-        <h3> Temperature </h3>
-        <Input
-          type="number"
-          id="temperatureLimit"
-          value={formInput.temperature}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              temperature: e.target.value,
-            }))}
-          required
-        />
-      </div>
+          <div className="distributionCompany-ID-container">
+            <h3> Temperature </h3>
+            <Input
+              type="number"
+              id="temperatureLimit"
+              value={formInput.temperature}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  temperature: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+        </>
+      )}
 
       <div className="submit-buttons">
-      <div>
-        <Link to="/">
-          <SubmitButtonBack type="submit">Back</SubmitButtonBack>
-        </Link>
-      </div>
-
-      <div>
-        <div className="retailer-submit">
-          <div onClick={handleSubmit}>
-            <SubmitButton type="submit">Submit</SubmitButton>
-          </div>
+        <div>
+          <Link to="/">
+            <SubmitButtonBack type="submit">Back</SubmitButtonBack>
+          </Link>
         </div>
-      </div>
 
-      </div>
+        {!productFound && (
+          <div>
+            <div className="processor-submit">
+              <div onClick={handleCheck}>
+                <SubmitButton type="submit">Check</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {productFound && (
+          <div>
+            <div className="retailer-submit">
+              <div onClick={handleSubmit}>
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -67,7 +67,7 @@ const SubmitButton = styled.button`
 // `;
 
 const SubmitButtonBack = styled.button`
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   color: #696969;
   padding: 10px 20px;
   font-size: 1.5rem;
@@ -85,31 +85,46 @@ const DistributionCompany = () => {
     productID: 0,
     temperature: 0,
     ordersReceived: 0,
-    volume: 0
+    volume: 0,
   });
 
-  const formatBigNumber = (bn) => {
-    const divideBy = new BigNumber("10").pow(new BigNumber(18));
-    const converted = new BigNumber(bn.toString());
-    const divided = converted.div(divideBy);
-    return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  // const formatBigNumber = (bn) => {
+  //   const divideBy = new BigNumber("10").pow(new BigNumber(18));
+  //   const converted = new BigNumber(bn.toString());
+  //   const divided = converted.div(divideBy);
+  //   return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  // };
+
+  const handleCheck = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (!formInput?.productID) {
+      toast.fail("Please fill all the fields!");
+      return;
+    }
+    console.log("Form submitted with manufacturer:", formInput?.productID);
+    setProductFound(true);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.distributionCompanyID || 
-        !formInput?.productID || 
-        !formInput?.temperature || 
-        !formInput?.ordersReceived ||
-        !formInput?.volume 
-      ) {
+    if (
+      !formInput?.distributionCompanyID ||
+      !formInput?.productID ||
+      !formInput?.temperature ||
+      !formInput?.ordersReceived ||
+      !formInput?.volume
+    ) {
       toast.fail("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with distributionCompany:",
-      formInput?.distributionCompanyID, formInput?.productID, formInput?.temperature, 
-      formInput?.ordersReceived, formInput?.volume);
+      formInput?.distributionCompanyID,
+      formInput?.productID,
+      formInput?.temperature,
+      formInput?.ordersReceived,
+      formInput?.volume
+    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -122,8 +137,11 @@ const DistributionCompany = () => {
     );
 
     const tx = await contract.distributionCompanyDetails(
-      formInput?.distributionCompanyID, formInput?.productID, formInput?.temperature, 
-      formInput?.ordersReceived, formInput?.volume
+      formInput?.distributionCompanyID,
+      formInput?.productID,
+      formInput?.temperature,
+      formInput?.ordersReceived,
+      formInput?.volume
     );
 
     // transaction for contract
@@ -142,21 +160,6 @@ const DistributionCompany = () => {
       </div>
 
       <div className="distributionCompany-ID-container">
-        <h3> distributionCompany ID </h3>
-        <Input
-          type="number"
-          id="ID"
-          value={formInput.distributionCompanyID}
-          onChange={(e) =>
-          updateFormInput((formInput) => ({
-            ...formInput,
-            distributionCompanyID: e.target.value,
-          }))}
-          required
-        />
-      </div>
-
-      <div className="distributionCompany-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
@@ -166,73 +169,108 @@ const DistributionCompany = () => {
             updateFormInput((formInput) => ({
               ...formInput,
               productID: e.target.value,
-            }))}
+            }))
+          }
           required
         />
       </div>
 
-      <div className="distributionCompany-ID-container">
-        <h3> orders Received </h3>
-        <Input
-          type="number"
-          id="origin"
-          value={formInput.ordersReceived}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              ordersReceived: e.target.value,
-            }))}
-          required
-        />
-      </div>
+      {productFound && (
+        <>
+          <Product productID={formInput.productID} />
+          <div className="distributionCompany-ID-container">
+            <h3> distributionCompany ID </h3>
+            <Input
+              type="number"
+              id="ID"
+              value={formInput.distributionCompanyID}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  distributionCompanyID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
 
-      <div className="distributionCompany-ID-container">
-        <h3> volume </h3>
-        <Input
-          type="number"
-          id="batchNo"
-          value={formInput.volume}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              volume: e.target.value,
-            }))}
-          required
-        />
-      </div>
+          <div className="distributionCompany-ID-container">
+            <h3> orders Received </h3>
+            <Input
+              type="number"
+              id="origin"
+              value={formInput.ordersReceived}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  ordersReceived: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
 
-      <div className="distributionCompany-ID-container">
-        <h3> Temperature </h3>
-        <Input
-          type="number"
-          id="temperatureLimit"
-          value={formInput.temperature}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              temperature: e.target.value,
-            }))}
-          required
-        />
-      </div>
+          <div className="distributionCompany-ID-container">
+            <h3> volume </h3>
+            <Input
+              type="number"
+              id="batchNo"
+              value={formInput.volume}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  volume: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="distributionCompany-ID-container">
+            <h3> Temperature </h3>
+            <Input
+              type="number"
+              id="temperatureLimit"
+              value={formInput.temperature}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  temperature: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+        </>
+      )}
 
       <div className="submit-buttons">
-      <div>
-        <Link to="/">
-          <SubmitButtonBack type="submit">Back</SubmitButtonBack>
-        </Link>
-      </div>
-
-      <div>
-        <div className="distributionCompany-submit">
-          <div onClick={handleSubmit}>
-            <SubmitButton type="submit">Submit</SubmitButton>
-          </div>
+        <div>
+          <Link to="/">
+            <SubmitButtonBack type="submit">Back</SubmitButtonBack>
+          </Link>
         </div>
-      </div>
 
-      </div>
+        {!productFound && (
+          <div>
+            <div className="processor-submit">
+              <div onClick={handleCheck}>
+                <SubmitButton type="submit">Check</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {productFound && (
+          <div>
+            <div className="distributionCompany-submit">
+              <div onClick={handleSubmit}>
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

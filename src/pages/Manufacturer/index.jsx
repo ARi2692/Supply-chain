@@ -8,6 +8,7 @@ import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.j
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
 import { Link } from "react-router-dom";
+import Product from "../../components/getProduct"
 
 // const Select = styled.select`
 //   color: #333; /* Secondary color */
@@ -80,7 +81,7 @@ const SubmitButtonBack = styled.button`
 const Manufacturer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
-  const [product, setProduct] = useState({});
+  // const [product, setProduct] = useState({});
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     manufacturerID: 0,
@@ -88,9 +89,9 @@ const Manufacturer = () => {
     temperature: 0
   });
 
-  useEffect(() => {
-    console.log(product);
-  })
+  // useEffect(() => {
+  //   console.log(product);
+  // })
 
 
   const formatBigNumber = (bn) => {
@@ -100,28 +101,15 @@ const Manufacturer = () => {
     return divided.toFixed(0, BigNumber.ROUND_DOWN);
   };
 
-  // const handleCheck = async (event) => {
-  //   event.preventDefault(); // Prevents form submission and page refresh
-  //   if (!formInput?.productID) {
-  //     toast.fail("Please fill all the fields!");
-  //     return;
-  //   }
-  //   console.log("Form submitted with manufacturer:", formInput?.productID);
-
-  //   await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
-  //   const signer = provider.getSigner();
-  //   console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
-  //   const contract = new ethers.Contract(
-  //     getConfigByChain(chain?.id)[0].supplyChainAddress,
-  //     SupplyChain.abi,
-  //     signer
-  //   );
-
-  //   const tx = await contract.getProduct(formInput?.productID-1);
-  //   setProduct(tx);
-  //   setProductFound(true);
-  // };
+  const handleCheck = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (!formInput?.productID) {
+      toast.fail("Please fill all the fields!");
+      return;
+    }
+    console.log("Form submitted with manufacturer:", formInput?.productID);
+    setProductFound(true);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
@@ -152,7 +140,8 @@ const Manufacturer = () => {
 
     // transaction for contract
     toast.success("Creating block... Please Wait", { icon: "👏" });
-    const receipt = await provider
+    console.log("logged !")
+    await provider
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
         toast.success("Manufacturer details logged Successfully !!");
@@ -183,15 +172,8 @@ const Manufacturer = () => {
 
       {productFound && 
       <>
-      {/* <p>{`Product Name : ${product.productName}`}</p>
-      <p>{`Product origin : ${product.origin}`}</p>
-      <p>{`Product instructions : ${product.instructions}`}</p>
-      <p>{`Product idealTemperature : ${product.idealTemperature}`}</p>
-      <p>{`Product batchNo : ${product.batchNo}`}</p>
-      <p>{`Product expiryDate : ${product.expiryDate}`}</p>
-      <p>{`Product totalVolume : ${product.totalVolume}`}</p> */}
 
-      {/* product component */}
+      < Product productID={formInput.productID} />
 
       <div className="manufacturer-ID-container">
         <h3> manufacturer ID </h3>

@@ -67,7 +67,7 @@ const SubmitButton = styled.button`
 // `;
 
 const SubmitButtonBack = styled.button`
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   color: #696969;
   padding: 10px 20px;
   font-size: 1.5rem;
@@ -80,35 +80,49 @@ const SubmitButtonBack = styled.button`
 const Consumer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     productID: 0,
     unitsReceived: 0,
     temperature: 0,
-    satisfied: false
+    satisfied: false,
   });
 
+  // const formatBigNumber = (bn) => {
+  //   const divideBy = new BigNumber("10").pow(new BigNumber(18));
+  //   const converted = new BigNumber(bn.toString());
+  //   const divided = converted.div(divideBy);
+  //   return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  // };
 
-  const formatBigNumber = (bn) => {
-    const divideBy = new BigNumber("10").pow(new BigNumber(18));
-    const converted = new BigNumber(bn.toString());
-    const divided = converted.div(divideBy);
-    return divided.toFixed(0, BigNumber.ROUND_DOWN);
+  const handleCheck = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (!formInput?.productID) {
+      toast.fail("Please fill all the fields!");
+      return;
+    }
+    console.log("Form submitted with manufacturer:", formInput?.productID);
+    setProductFound(true);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.productID || 
-        !formInput?.unitsReceived || 
-        !formInput?.temperature || 
-        !formInput?.satisfied 
-      ) {
+    if (
+      !formInput?.productID ||
+      !formInput?.unitsReceived ||
+      !formInput?.temperature ||
+      !formInput?.satisfied
+    ) {
       toast.fail("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with consumer:",
-      formInput?.productID, formInput?.unitsReceived, formInput?.temperature,
-      formInput?.satisfied);
+      formInput?.productID,
+      formInput?.unitsReceived,
+      formInput?.temperature,
+      formInput?.satisfied
+    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -121,7 +135,9 @@ const Consumer = () => {
     );
 
     const tx = await contract.consumerDetails(
-      formInput?.productID, formInput?.unitsReceived, formInput?.temperature,
+      formInput?.productID,
+      formInput?.unitsReceived,
+      formInput?.temperature,
       formInput?.satisfied
     );
 
@@ -147,78 +163,95 @@ const Consumer = () => {
           id="ID"
           value={formInput.productID}
           onChange={(e) =>
-          updateFormInput((formInput) => ({
-            ...formInput,
-            productID: e.target.value,
-          }))}
-          required
-        />
-      </div>
-
-
-      <div className="consumer-ID-container">
-        <h3> units Received </h3>
-        <Input
-          type="number"
-          id="unitsReceived"
-          value={formInput.unitsReceived}
-          onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              unitsReceived: e.target.value,
-            }))}
+              productID: e.target.value,
+            }))
+          }
           required
         />
       </div>
 
+      {productFound && (
+        <>
+          <Product productID={formInput.productID} />
+          <div className="consumer-ID-container">
+            <h3> units Received </h3>
+            <Input
+              type="number"
+              id="unitsReceived"
+              value={formInput.unitsReceived}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  unitsReceived: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
 
-      <div className="consumer-ID-container">
-        <h3> Temperature </h3>
-        <Input
-          type="number"
-          id="temperature"
-          value={formInput.temperature}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              temperature: e.target.value,
-            }))}
-          required
-        />
-      </div>
+          <div className="consumer-ID-container">
+            <h3> Temperature </h3>
+            <Input
+              type="number"
+              id="temperature"
+              value={formInput.temperature}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  temperature: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
 
-      <div className="consumer-ID-container">
-        <h3> satisfied </h3>
-        <Input
-          type="checkbox"
-          id="satisfied"
-          value={formInput.satisfied}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              satisfied: e.target.value,
-            }))}
-          required
-        />
-      </div>
+          <div className="consumer-ID-container">
+            <h3> satisfied </h3>
+            <Input
+              type="checkbox"
+              id="satisfied"
+              value={formInput.satisfied}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  satisfied: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+        </>
+      )}
 
       <div className="submit-buttons">
-      <div>
-        <Link to="/">
-          <SubmitButtonBack type="submit">Back</SubmitButtonBack>
-        </Link>
-      </div>
-
-      <div>
-        <div className="consumer-submit">
-          <div onClick={handleSubmit}>
-            <SubmitButton type="submit">Submit</SubmitButton>
-          </div>
+        <div>
+          <Link to="/">
+            <SubmitButtonBack type="submit">Back</SubmitButtonBack>
+          </Link>
         </div>
-      </div>
 
-      </div>
+        {!productFound && (
+          <div>
+            <div className="processor-submit">
+              <div onClick={handleCheck}>
+                <SubmitButton type="submit">Check</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
 
+        {productFound && (
+          <div>
+            <div className="consumer-submit">
+              <div onClick={handleSubmit}>
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

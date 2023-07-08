@@ -4,7 +4,6 @@ import "./landing.css";
 import { Link } from "react-router-dom";
 
 const Landing = () => {
-
   return (
     <div>
       <NavBar />
@@ -14,51 +13,51 @@ const Landing = () => {
       </div>
 
       <div className="float-container">
-      <Link to="/farmer" >
-        <div className="float-child-left">
-          <h2>Farmer</h2>
-        </div>
-      </Link>
-        <Link to="/manufacturer" >
-        <div className="float-child-right">
-          <h2>Manufacturer</h2>
-        </div>
+        <Link to="/farmer">
+          <div className="float-child-left">
+            <h2>Farmer</h2>
+          </div>
+        </Link>
+        <Link to="/manufacturer">
+          <div className="float-child-right">
+            <h2>Manufacturer</h2>
+          </div>
         </Link>
       </div>
       <div className="float-container">
-      <Link to="/processor" >
-        <div className="float-child-left">
-          <h2>Processor</h2>
-        </div>
-      </Link>
-        <Link to="/distributionCompany" >
-        <div className="float-child-right">
-          <h2>DistributionCompany</h2>
-        </div>
+        <Link to="/processor">
+          <div className="float-child-left">
+            <h2>Processor</h2>
+          </div>
+        </Link>
+        <Link to="/distributionCompany">
+          <div className="float-child-right">
+            <h2>DistributionCompany</h2>
+          </div>
         </Link>
       </div>
       <div className="float-container">
-      <Link to="/distributionCentre" >
-        <div className="float-child-left">
-          <h2>DistributionCentre</h2>
-        </div>
-      </Link>
-        <Link to="/deliveryTruck" >
-        <div className="float-child-right">
-          <h2>DeliveryTruck</h2>
-        </div>
+        <Link to="/distributionCentre">
+          <div className="float-child-left">
+            <h2>DistributionCentre</h2>
+          </div>
+        </Link>
+        <Link to="/deliveryTruck">
+          <div className="float-child-right">
+            <h2>DeliveryTruck</h2>
+          </div>
         </Link>
       </div>
       <div className="float-container">
-      <Link to="/retailer" >
-        <div className="float-child-left">
-          <h2>Retailer</h2>
-        </div>
-      </Link>
-        <Link to="/consumer" >
-        <div className="float-child-right">
-          <h2>Consumer</h2>
-        </div>
+        <Link to="/retailer">
+          <div className="float-child-left">
+            <h2>Retailer</h2>
+          </div>
+        </Link>
+        <Link to="/consumer">
+          <div className="float-child-right">
+            <h2>Consumer</h2>
+          </div>
         </Link>
       </div>
     </div>
@@ -66,4 +65,3 @@ const Landing = () => {
 };
 
 export default Landing;
-
