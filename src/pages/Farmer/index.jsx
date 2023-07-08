@@ -7,7 +7,7 @@ import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment'
 
 // const Select = styled.select`
@@ -81,6 +81,7 @@ const SubmitButtonBack = styled.button`
 const Farmer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const navigate = useNavigate();
   const [formInput, updateFormInput] = useState({
     farmerID: 0,
     productName: "",
@@ -111,7 +112,7 @@ const Farmer = () => {
         !formInput?.temperatureLimit || 
         !formInput?.instructions
       ) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log(
@@ -140,9 +141,10 @@ const Farmer = () => {
 
     // transaction for contract
     toast.success("Creating block... Please Wait", { icon: "👏" });
-    const receipt = await provider
+    await provider
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
+        navigate("/");
         toast.success("Farmer details logged Successfully !!");
       });
   };

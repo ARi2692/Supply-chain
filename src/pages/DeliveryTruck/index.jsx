@@ -7,7 +7,8 @@ import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Product from "../../components/getProduct"
 
 // const Select = styled.select`
 //   color: #333; /* Secondary color */
@@ -80,6 +81,7 @@ const SubmitButtonBack = styled.button`
 const DeliveryTruck = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     deliveryTruckID: 0,
@@ -98,7 +100,7 @@ const DeliveryTruck = () => {
   const handleCheck = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (!formInput?.productID) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log("Form submitted with manufacturer:", formInput?.productID);
@@ -113,7 +115,7 @@ const DeliveryTruck = () => {
       !formInput?.temperature ||
       !formInput?.volume
     ) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log(
@@ -143,9 +145,10 @@ const DeliveryTruck = () => {
 
     // transaction for contract
     toast.success("Creating block... Please Wait", { icon: "👏" });
-    const receipt = await provider
+    await provider
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
+        navigate("/");
         toast.success("DeliveryTruck details logged Successfully !!");
       });
   };

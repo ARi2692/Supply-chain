@@ -7,7 +7,8 @@ import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Product from "../../components/getProduct";
 
 // const Select = styled.select`
 //   color: #333; /* Secondary color */
@@ -80,6 +81,7 @@ const SubmitButtonBack = styled.button`
 const Retailer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     retailerID: 0,
@@ -98,7 +100,7 @@ const Retailer = () => {
   const handleCheck = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (!formInput?.productID) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log("Form submitted with manufacturer:", formInput?.productID);
@@ -113,7 +115,7 @@ const Retailer = () => {
       !formInput?.temperature ||
       !formInput?.volume
     ) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log(
@@ -143,33 +145,16 @@ const Retailer = () => {
 
     // transaction for contract
     toast.success("Creating block... Please Wait", { icon: "👏" });
-    const receipt = await provider
-      .waitForTransaction(tx.hash, 1, 150000)
-      .then(() => {
-        toast.success("Retailer details logged Successfully !!");
-      });
+    await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
+      navigate("/");
+      toast.success("Retailer details logged Successfully !!");
+    });
   };
 
   return (
     <div className="container">
       <div className="header">
         <h1>Details by Retailer</h1>
-      </div>
-
-      <div className="retailer-ID-container">
-        <h3> retailer ID </h3>
-        <Input
-          type="number"
-          id="ID"
-          value={formInput.retailerID}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              retailerID: e.target.value,
-            }))
-          }
-          required
-        />
       </div>
 
       <div className="distributionCompany-ID-container">
@@ -191,6 +176,21 @@ const Retailer = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
+          <div className="retailer-ID-container">
+            <h3> retailer ID </h3>
+            <Input
+              type="number"
+              id="ID"
+              value={formInput.retailerID}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  retailerID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
           <div className="distributionCompany-ID-container">
             <h3> volume </h3>
             <Input

@@ -7,7 +7,8 @@ import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Product from "../../components/getProduct"
 
 // const Select = styled.select`
 //   color: #333; /* Secondary color */
@@ -80,6 +81,7 @@ const SubmitButtonBack = styled.button`
 const DistributionCentre = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
+  const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     distributionCentreID: 0,
@@ -99,7 +101,7 @@ const DistributionCentre = () => {
   const handleCheck = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (!formInput?.productID) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log("Form submitted with manufacturer:", formInput?.productID);
@@ -115,7 +117,7 @@ const DistributionCentre = () => {
       !formInput?.ordersReceived ||
       !formInput?.volume
     ) {
-      toast.fail("Please fill all the fields!");
+      toast.error("Please fill all the fields!");
       return;
     }
     console.log(
@@ -147,9 +149,10 @@ const DistributionCentre = () => {
 
     // transaction for contract
     toast.success("Creating block... Please Wait", { icon: "👏" });
-    const receipt = await provider
+    await provider
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
+        navigate("/");
         toast.success("DistributionCentre details logged Successfully !!");
       });
   };
