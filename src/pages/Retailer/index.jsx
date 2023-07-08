@@ -5,20 +5,10 @@ import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import BigNumber from "bignumber.js";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/getProduct";
-
-// const Select = styled.select`
-//   color: #333; /* Secondary color */
-//   font-size: 1.5rem; /* Large size */
-//   padding: 8px;
-//   border-radius: 4px;
-//   border: 1px solid #ccc;
-//   background-color: #fff;
-// `;
 
 const Input = styled.input`
   padding: 10px;
@@ -26,26 +16,6 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
-
-// const SelectOneItem = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   width: 200px;
-//   height: 100px;
-//   background-color: ${(props) => (props.selected ? "#808080" : "#e0e0e0")};
-//   border-radius: 4px;
-//   margin: 10px;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: #c0c0c0;
-//   }
-
-//   &:active {
-//     background-color: #808080;
-//   }
-// `;
 
 const SubmitButton = styled.button`
   background-color: #808080;
@@ -56,17 +26,6 @@ const SubmitButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
 `;
-
-// const SubmitButtonDisabled = styled.button`
-//   background-color: #808080;
-//   color: #ffffff;
-//   padding: 10px 20px;
-//   font-size: 1.5rem;
-//   border: none;
-//   border-radius: 4px;
-//   cursor: not-allowed;
-//   opacity: 0.5;
-// `;
 
 const SubmitButtonBack = styled.button`
   background-color: #e8e8e8;
@@ -90,13 +49,6 @@ const Retailer = () => {
     temperature: 0,
     volume: 0,
   });
-
-  // const formatBigNumber = (bn) => {
-  //   const divideBy = new BigNumber("10").pow(new BigNumber(18));
-  //   const converted = new BigNumber(bn.toString());
-  //   const divided = converted.div(divideBy);
-  //   return divided.toFixed(0, BigNumber.ROUND_DOWN);
-  // };
 
   const handleCheck = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh

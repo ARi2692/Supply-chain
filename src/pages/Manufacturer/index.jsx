@@ -5,20 +5,10 @@ import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import BigNumber from "bignumber.js";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
-import Product from "../../components/getProduct"
-
-// const Select = styled.select`
-//   color: #333; /* Secondary color */
-//   font-size: 1.5rem; /* Large size */
-//   padding: 8px;
-//   border-radius: 4px;
-//   border: 1px solid #ccc;
-//   background-color: #fff;
-// `;
+import Product from "../../components/getProduct";
 
 const Input = styled.input`
   padding: 10px;
@@ -26,26 +16,6 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
 `;
-
-// const SelectOneItem = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   width: 200px;
-//   height: 100px;
-//   background-color: ${(props) => (props.selected ? "#808080" : "#e0e0e0")};
-//   border-radius: 4px;
-//   margin: 10px;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: #c0c0c0;
-//   }
-
-//   &:active {
-//     background-color: #808080;
-//   }
-// `;
 
 const SubmitButton = styled.button`
   background-color: #808080;
@@ -57,19 +27,8 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-// const SubmitButtonDisabled = styled.button`
-//   background-color: #808080;
-//   color: #ffffff;
-//   padding: 10px 20px;
-//   font-size: 1.5rem;
-//   border: none;
-//   border-radius: 4px;
-//   cursor: not-allowed;
-//   opacity: 0.5;
-// `;
-
 const SubmitButtonBack = styled.button`
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   color: #696969;
   padding: 10px 20px;
   font-size: 1.5rem;
@@ -83,25 +42,12 @@ const Manufacturer = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const navigate = useNavigate();
-  // const [product, setProduct] = useState({});
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     manufacturerID: 0,
     productID: 0,
-    temperature: 0
+    temperature: 0,
   });
-
-  // useEffect(() => {
-  //   console.log(product);
-  // })
-
-
-  const formatBigNumber = (bn) => {
-    const divideBy = new BigNumber("10").pow(new BigNumber(18));
-    const converted = new BigNumber(bn.toString());
-    const divided = converted.div(divideBy);
-    return divided.toFixed(0, BigNumber.ROUND_DOWN);
-  };
 
   const handleCheck = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
@@ -115,16 +61,20 @@ const Manufacturer = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.manufacturerID || 
-        !formInput?.productID || 
-        !formInput?.temperature
-      ) {
+    if (
+      !formInput?.manufacturerID ||
+      !formInput?.productID ||
+      !formInput?.temperature
+    ) {
       toast("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with manufacturer:",
-      formInput?.manufacturerID, formInput?.productID, formInput?.temperature);
+      formInput?.manufacturerID,
+      formInput?.productID,
+      formInput?.temperature
+    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -137,18 +87,18 @@ const Manufacturer = () => {
     );
 
     const tx = await contract.manufacturerDetails(
-      formInput?.manufacturerID, formInput?.productID, formInput?.temperature
+      formInput?.manufacturerID,
+      formInput?.productID,
+      formInput?.temperature
     );
 
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
-    console.log("logged !")
-    await provider
-      .waitForTransaction(tx.hash, 1, 150000)
-      .then(() => {
-        navigate("/");
-        toast("Manufacturer details logged Successfully !!");
-      });
+    console.log("logged !");
+    await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
+      navigate("/");
+      toast("Manufacturer details logged Successfully !!");
+    });
   };
 
   return (
@@ -168,79 +118,77 @@ const Manufacturer = () => {
             updateFormInput((formInput) => ({
               ...formInput,
               productID: e.target.value,
-            }))}
-          required
-        />
-      </div>
-      
-
-      {productFound && 
-      <>
-
-      < Product productID={formInput.productID} />
-
-      <div className="manufacturer-ID-container">
-        <h3> manufacturer ID </h3>
-        <Input
-          type="number"
-          id="ID"
-          value={formInput.manufacturerID}
-          onChange={(e) =>
-          updateFormInput((formInput) => ({
-            ...formInput,
-            manufacturerID: e.target.value,
-          }))}
+            }))
+          }
           required
         />
       </div>
 
-      <div className="manufacturer-ID-container">
-        <h3> Temperature </h3>
-        <Input
-          type="number"
-          id="temperature"
-          value={formInput.temperature}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              temperature: e.target.value,
-            }))}
-          required
-        />
-      </div>
-      </>
-      }
+      {productFound && (
+        <>
+          <Product productID={formInput.productID} />
 
+          <div className="manufacturer-ID-container">
+            <h3> manufacturer ID </h3>
+            <Input
+              type="number"
+              id="ID"
+              value={formInput.manufacturerID}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  manufacturerID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="manufacturer-ID-container">
+            <h3> Temperature </h3>
+            <Input
+              type="number"
+              id="temperature"
+              value={formInput.temperature}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  temperature: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+        </>
+      )}
 
       <div className="submit-buttons">
-      <div>
-        <Link to="/">
-          <SubmitButtonBack type="submit">Back</SubmitButtonBack>
-        </Link>
-      </div>
-
-      {!productFound && 
-      <div>
-      <div className="manufacturer-submit">
-        <div onClick={handleCheck}>
-          <SubmitButton type="submit">Check</SubmitButton>
+        <div>
+          <Link to="/">
+            <SubmitButtonBack type="submit">Back</SubmitButtonBack>
+          </Link>
         </div>
-      </div>
-      </div>
-      }
 
-      {productFound && 
-      <div>
-        <div className="manufacturer-submit">
-          <div onClick={handleSubmit}>
-            <SubmitButton type="submit">Submit</SubmitButton>
+        {!productFound && (
+          <div>
+            <div className="manufacturer-submit">
+              <div onClick={handleCheck}>
+                <SubmitButton type="submit">Check</SubmitButton>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      }
+        )}
 
+        {productFound && (
+          <div>
+            <div className="manufacturer-submit">
+              <div onClick={handleSubmit}>
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
     </div>
   );
 };
