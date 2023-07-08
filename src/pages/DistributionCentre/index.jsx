@@ -5,7 +5,8 @@ import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-import toast from "react-hot-toast";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import BigNumber from "bignumber.js";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/getProduct"
@@ -101,7 +102,7 @@ const DistributionCentre = () => {
   const handleCheck = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (!formInput?.productID) {
-      toast.error("Please fill all the fields!");
+      toast("Please fill all the fields!");
       return;
     }
     console.log("Form submitted with manufacturer:", formInput?.productID);
@@ -117,7 +118,7 @@ const DistributionCentre = () => {
       !formInput?.ordersReceived ||
       !formInput?.volume
     ) {
-      toast.error("Please fill all the fields!");
+      toast("Please fill all the fields!");
       return;
     }
     console.log(
@@ -148,17 +149,18 @@ const DistributionCentre = () => {
     );
 
     // transaction for contract
-    toast.success("Creating block... Please Wait", { icon: "👏" });
+    toast("Creating block... Please Wait", { icon: "👏" });
     await provider
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
         navigate("/");
-        toast.success("DistributionCentre details logged Successfully !!");
+        toast("DistributionCentre details logged Successfully !!");
       });
   };
 
   return (
     <div className="container">
+      <ToastContainer />
       <div className="header">
         <h1>Details by DistributionCentre</h1>
       </div>
