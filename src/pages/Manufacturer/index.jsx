@@ -1,0 +1,196 @@
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import "./manufacturer.css";
+import { ethers } from "ethers";
+import { useAccount, useNetwork } from "wagmi";
+import { getConfigByChain } from "../../config";
+import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link, useNavigate } from "react-router-dom";
+import Product from "../../components/getProduct";
+
+const Input = styled.input`
+  padding: 10px;
+  font-size: 24px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const SubmitButton = styled.button`
+  background-color: #808080;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const SubmitButtonBack = styled.button`
+  background-color: #e8e8e8;
+  color: #696969;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  border: none;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const Manufacturer = () => {
+  const { chain } = useNetwork();
+  const { address } = useAccount();
+  const navigate = useNavigate();
+  const [productFound, setProductFound] = useState(false);
+  const [formInput, updateFormInput] = useState({
+    manufacturerID: 0,
+    productID: 0,
+    temperature: 0,
+  });
+
+  const handleCheck = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (!formInput?.productID) {
+      toast("Please fill all the fields!");
+      return;
+    }
+    console.log("Form submitted with manufacturer:", formInput?.productID);
+    setProductFound(true);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevents form submission and page refresh
+    if (
+      !formInput?.manufacturerID ||
+      !formInput?.productID ||
+      !formInput?.temperature
+    ) {
+      toast("Please fill all the fields!");
+      return;
+    }
+    console.log(
+      "Form submitted with manufacturer:",
+      formInput?.manufacturerID,
+      formInput?.productID,
+      formInput?.temperature
+    );
+
+    await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
+    const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
+    const signer = provider.getSigner();
+    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
+    const contract = new ethers.Contract(
+      getConfigByChain(chain?.id)[0].supplyChainAddress,
+      SupplyChain.abi,
+      signer
+    );
+
+    const tx = await contract.manufacturerDetails(
+      formInput?.manufacturerID,
+      formInput?.productID,
+      formInput?.temperature
+    );
+
+    // transaction for contract
+    toast("Creating block... Please Wait", { icon: "👏" });
+    console.log("logged !");
+    await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
+      navigate("/");
+      toast("Manufacturer details logged Successfully !!");
+    });
+  };
+
+  return (
+    <div className="container">
+      <ToastContainer />
+      <div className="header">
+        <h1>Details by Manufacturer</h1>
+      </div>
+
+      <div className="manufacturer-ID-container">
+        <h3> product ID </h3>
+        <Input
+          type="number"
+          id="productID"
+          value={formInput.productID}
+          onChange={(e) =>
+            updateFormInput((formInput) => ({
+              ...formInput,
+              productID: e.target.value,
+            }))
+          }
+          required
+        />
+      </div>
+
+      {productFound && (
+        <>
+          <Product productID={formInput.productID} />
+
+          <div className="manufacturer-ID-container">
+            <h3> manufacturer ID </h3>
+            <Input
+              type="number"
+              id="ID"
+              value={formInput.manufacturerID}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  manufacturerID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="manufacturer-ID-container">
+            <h3> Temperature </h3>
+            <Input
+              type="number"
+              id="temperature"
+              value={formInput.temperature}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  temperature: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+        </>
+      )}
+
+      <div className="submit-buttons">
+        <div>
+          <Link to="/">
+            <SubmitButtonBack type="submit">Back</SubmitButtonBack>
+          </Link>
+        </div>
+
+        {!productFound && (
+          <div>
+            <div className="manufacturer-submit">
+              <div onClick={handleCheck}>
+                <SubmitButton type="submit">Check</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {productFound && (
+          <div>
+            <div className="manufacturer-submit">
+              <div onClick={handleSubmit}>
+                <SubmitButton type="submit">Submit</SubmitButton>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Manufacturer;
