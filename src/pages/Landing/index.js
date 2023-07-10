@@ -18,16 +18,16 @@ const Landing = () => {
             <h2>Farmer</h2>
           </div>
         </Link>
-        <Link to="/manufacturer">
-          <div className="float-child-right">
-            <h2>Manufacturer</h2>
+        <Link to="/processor">
+          <div className="float-child-left">
+            <h2>Processor</h2>
           </div>
         </Link>
       </div>
       <div className="float-container">
-        <Link to="/processor">
-          <div className="float-child-left">
-            <h2>Processor</h2>
+      <Link to="/manufacturer">
+          <div className="float-child-right">
+            <h2>Supplier</h2>
           </div>
         </Link>
         <Link to="/distributionCompany">
