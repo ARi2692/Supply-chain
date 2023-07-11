@@ -3,77 +3,84 @@ pragma solidity >=0.8.2 <0.9.0;
 
 /**
  * @title Supply chain
- * @author Arundhati
+ * @author A
  * @notice You can use this contract for tracking the product from farmer to the consumer
  * @dev Supply chain system aims to monitor and trace food products
  */
 contract SupplyChain {
+    // productID is the product index
     struct Product {
-        // uint256 productID;
         string productName;
         string origin;
-        uint256 batchNo;
-        uint256 expiryDate;
+        uint256 batchNo; // supplier
+        uint256 harvestDate;
+        uint256 expiryDate; // supplier
         uint256 totalVolume;
         uint256 idealTemperature; // for range of temperature to be maintained
-        // uint256 temperatureUpperLimit;
-        string instructions; // message instructions storagecond
+        string envInfo; // message instructions storagecond
+        uint256 stage;
     }
 
+    // mapped to productID
     struct Farmer {
         uint256 farmerID;
-        // uint256 productIndex;
         uint256 dateTimeDelivered;
     }
 
-    struct Manufacturer {
-        uint256 manufacturerID;
-        // uint256 productIndex;
+    // mapped to productID
+    struct Supplier {
+        uint256 supplierID;
         uint256 dateTimeDelivered; // to distribution after processing
+        string specificationsAndProcessingInfo;
+        // nutritional facts, ingredient lists, allergen warnings, additives, preservatives, or flavourings used
         uint256 temperature;
-    }
-
-    struct Processor {
-        bool qualityCheck;
-        bool saferToConsume;
         uint256 safeAboveAge;
+        bool isOrganic;
     }
 
-    struct DistributionCompany {
-        uint256 distrubutorCompanyID;
-        // uint256 productIndex;
+    // mapped to productID
+    struct Regulator {
+        uint256 regulatorID;
+        bool guidelinesMeet; // regulations, guidelines, or codes of practice
+        bool Compliant; // routine inspections, audits, or sampling done
+    }
+
+    // mapped to productID
+    struct QualityAssurance {
+        uint256 assuranceID;
+        bool qualityStandardsMeet;
+        bool audited;
+        bool verified;
+    }
+
+    // mapped to productID
+    struct Distributor {
+        uint256 distributorID;
         uint256 temperature;
         uint256 ordersReceived;
         uint256 volume;
         uint256 dateTimeReceived;
     }
 
-    struct DistributionCentre {
-        uint256 distrubutorCentreID;
-        // uint256 productIndex;
-        uint256 temperature;
-        uint256 ordersReceived;
-        uint256 volume;
-        uint256 dateTimeReceived;
-    }
-
-    struct DeliveryTruck {
-        uint256 deliveryTruckID;
-        // uint256 productIndex;
+    // mapped to productID
+    struct Logistics {
+        uint256 logisticsID;
         uint256 temperature;
         uint256 volume;
+        uint256 modeOfTransport;
         uint256 dateTimeStartedDelivering;
     }
 
+    // mapped to productID
     struct Retailer {
         uint256 retailerID;
-        // uint256 productIndex;
         uint256 temperature;
         uint256 volume;
         uint256 dateTimeReceived;
     }
 
     // check will be made regarding dateTimeReceived, temperature, standards and all
+    // mapped to productID
     struct Consumer {
         uint256 unitsReceivedWithinStd;
         uint256 unitsReceivedOutsideStd;
@@ -85,20 +92,20 @@ contract SupplyChain {
     // productIndex mapped to farmer
     mapping(uint256 => Farmer) private farmers;
 
-    // productIndex mapped to Manufacturer
-    mapping(uint256 => Manufacturer) private manufacturers;
+    // productIndex mapped to Supplier
+    mapping(uint256 => Supplier) private suppliers;
 
-    // productIndex mapped to
-    mapping(uint256 => Processor) private processors;
+    // productIndex mapped to Regulator
+    mapping(uint256 => Regulator) private regulators;
 
-    // productIndex to DistributionCompany
-    mapping(uint256 => DistributionCompany) private distributionCompanies;
+    // productIndex mapped to QualityAssurance
+    mapping(uint256 => QualityAssurance) private qualityAssuranceAnalysts;
 
-    // productIndex to DistributionCentre
-    mapping(uint256 => DistributionCentre) private distributionCentres;
+    // productIndex to Distributor
+    mapping(uint256 => Distributor) private distributors;
 
-    // productIndex to DeliveryTruck
-    mapping(uint256 => DeliveryTruck) private deliveryTrucks;
+    // productIndex to Logistics
+    mapping(uint256 => Logistics) private logistics;
 
     // productIndex to Retailer
     mapping(uint256 => Retailer) private retailers;
@@ -107,37 +114,37 @@ contract SupplyChain {
     mapping(uint256 => Consumer) private customers;
 
     /**
-     * @notice farmer inputs the details when deliveried to the manufacturer Company
+     * @notice farmer inputs the details when deliveried to the supplier Company
      * @dev farmer inputs details and adds the product details
      * @param _farmerID - farmer ID
      * @param _productName - the product name
      * @param _origin - the origin place of the product
-     * @param _batchNo - batch number
-     * @param _expiryDate - expiry date of the product
-     * @param _totalVolume - total volume deliveried to the manufacturer
+     * @param _harvestDate - expiry date of the product
+     * @param _totalVolume - total volume deliveried to the supplier
      * @param _temperatureLimit - the temperature limit below which the product should be kept
-     * @param _instructions - any additional instructions provided by the farmer
+     * @param _envInfo - any additional instructions provided by the farmer
      */
     function farmerDetails(
         uint256 _farmerID,
         string calldata _productName,
         string calldata _origin,
-        uint256 _batchNo,
-        uint256 _expiryDate,
+        uint256 _harvestDate,
         uint256 _totalVolume,
         uint256 _temperatureLimit,
-        string calldata _instructions
+        string calldata _envInfo
     ) external {
         require(_farmerID > 0, "Invalid farmer ID");
         products.push(
             Product({
                 productName: _productName,
                 origin: _origin,
-                batchNo: _batchNo,
-                expiryDate: _expiryDate,
+                batchNo: 0,
+                harvestDate: _harvestDate,
+                expiryDate: 0, // check
                 totalVolume: _totalVolume,
                 idealTemperature: _temperatureLimit,
-                instructions: _instructions
+                envInfo: _envInfo,
+                stage: 0
             })
         );
         farmers[products.length - 1] = Farmer({
@@ -147,127 +154,141 @@ contract SupplyChain {
     }
 
     /**
-     * @notice processor inputs the details when deliveried to the manufacturer Company
-     * @dev processor inputs details before manufacturer
-     * @param _productID - product ID
-     * @param _qualityCheck - true if the quality check is passed and cleared
-     * @param _saferToConsume - true if certified as safer to consume
-     * @param _safeAboveAge - the age above which it is safe to consume
+     * @notice supplier inputs the details when deliveried to the Distribution Company
+     * @dev supplier inputs details after regulator inputs
+     * @param _supplierID - Supplier ID
+     * @param _productID - the product ID
+     * @param _temperature - the temperature at the time of delivery
      */
-    function processorDetails(
+    function processorAndsupplierDetails(
+        uint256 _supplierID,
         uint256 _productID,
-        bool _qualityCheck,
-        bool _saferToConsume,
-        uint256 _safeAboveAge
+        uint256 _temperature,
+        string calldata _specificationsAndProcessingInfo,
+        uint256 _safeAboveAge,
+        uint256 _batchNo,
+        uint256 _expiryDate,
+        bool _isOrganic
     ) external {
-        require(products.length>_productID, "Product doesnot exist");
-        processors[_productID] = Processor({
-            qualityCheck: _qualityCheck,
-            saferToConsume: _saferToConsume,
-            safeAboveAge: _safeAboveAge
-        });
-    }
-
-    /**
-     * @notice manufacturer inputs the details when deliveried to the Distribution Company
-     * @dev manufacturer inputs details after processor inputs
-     * @param _manufacturerID - Manufacturer ID
-     * @param _productID - the product ID 
-     * @param _temperature - the temperature at the time of delivery
-     */
-    function manufacturerDetails(
-        uint256 _manufacturerID,
-        uint256 _productID,
-        uint256 _temperature
-    ) external  {
-        require(products.length>_productID, "Product doesnot exist");
-        manufacturers[_productID] = Manufacturer({
-            manufacturerID: _manufacturerID,
+        require(products.length > _productID, "Product doesnot exist");
+        suppliers[_productID] = Supplier({
+            supplierID: _supplierID,
             dateTimeDelivered: block.timestamp,
-            temperature: _temperature
+            temperature: _temperature,
+            specificationsAndProcessingInfo: _specificationsAndProcessingInfo,
+            safeAboveAge: _safeAboveAge,
+            isOrganic: _isOrganic
+        });
+        products[_productID].batchNo = _batchNo;
+        products[_productID].expiryDate = _expiryDate;
+        products[_productID].stage = 1;
+    }
+
+    /**
+     * @notice regulator inputs the details when deliveried to the supplier Company
+     * @dev regulator inputs details before supplier
+     * @param _productID - product ID
+     * @param _regulatorID - true if the quality check is passed and cleared
+     * @param _guidelinesMeet - true if certified as safer to consume
+     * @param _Compliant - the age above which it is safe to consume
+     */
+    function regulatorDetails(
+        uint256 _productID,
+        uint256 _regulatorID,
+        bool _guidelinesMeet,
+        bool _Compliant
+    ) external {
+        require(products.length > _productID, "Product doesnot exist");
+        regulators[_productID] = Regulator({
+            regulatorID: _regulatorID,
+            guidelinesMeet: _guidelinesMeet,
+            Compliant: _Compliant
         });
     }
 
     /**
-     * @notice distribution Company inputs the details
+     * @notice qualityAssuranceAnalyst inputs the details when deliveried to the supplier Company
+     * @dev qualityAssuranceAnalyst inputs details before supplier
+     * @param _productID - product ID
+     * @param _assuranceID - true if the quality check is passed and cleared
+     * @param _qualityStandardsMeet - true if certified as safer to consume
+     * @param _audited - the age above which it is safe to consume
+     * @param _verified - the age above which it is safe to consume
+     */
+    function qualityAssuranceAnalystDetails(
+        uint256 _productID,
+        uint256 _assuranceID,
+        bool _qualityStandardsMeet,
+        bool _audited,
+        bool _verified
+    ) external {
+        require(products.length > _productID, "Product doesnot exist");
+        qualityAssuranceAnalysts[_productID] = QualityAssurance({
+            assuranceID: _assuranceID,
+            qualityStandardsMeet: _qualityStandardsMeet,
+            audited: _audited,
+            verified: _verified
+        });
+    }
+
+    /**
+     * @notice distributor inputs the details
      * @dev distributor inputs details when it received
-     * @param _distrubutorCompanyID - distrubutor Company ID
-     * @param _productID - the product ID 
+     * @param _distributorID - distrubutor Company ID
+     * @param _productID - the product ID
      * @param _temperature - the temperature at the time of delivery
      * @param _ordersReceived - number of orders received
      * @param _volume - the volume it received
      */
-    function distributionCompanyDetails(
-        uint256 _distrubutorCompanyID,
+    function distributorDetails(
+        uint256 _distributorID,
         uint256 _productID,
         uint256 _temperature,
         uint256 _ordersReceived,
         uint256 _volume
-    ) external  {
-        require(products.length>_productID, "Product doesnot exist");
-        distributionCompanies[_productID] = DistributionCompany({
-            distrubutorCompanyID: _distrubutorCompanyID,
+    ) external {
+        require(products.length > _productID, "Product doesnot exist");
+        distributors[_productID] = Distributor({
+            distributorID: _distributorID,
             temperature: _temperature,
             ordersReceived: _ordersReceived,
             volume: _volume,
             dateTimeReceived: block.timestamp
         });
+        products[_productID].stage = 3;
     }
 
     /**
-     * @notice distribution Centre inputs the details
-     * @dev distributor inputs details when it received
-     * @param _distrubutorCentreID - distrubutor Centre ID
-     * @param _productID - the product ID 
-     * @param _temperature - the temperature when received
-     * @param _ordersReceived - number of orders received
-     * @param _volume - the volume it received
-     */
-    function distributionCentreDetails(
-        uint256 _distrubutorCentreID,
-        uint256 _productID,
-        uint256 _temperature,
-        uint256 _ordersReceived,
-        uint256 _volume
-    ) external  {
-        require(products.length>_productID, "Product doesnot exist");
-        distributionCentres[_productID] = DistributionCentre({
-            distrubutorCentreID: _distrubutorCentreID,
-            temperature: _temperature,
-            ordersReceived: _ordersReceived,
-            volume: _volume,
-            dateTimeReceived: block.timestamp
-        });
-    }
-
-    /**
-     * @notice delivery Truck inputs the details
-     * @dev delivery Truck inputs details when Delivery starts
-     * @param _deliveryTruckID - delivery Truck ID
-     * @param _productID - the product ID 
+     * @notice delivery Truck / logistics inputs the details
+     * @dev delivery Truck / logistics inputs details when Delivery starts
+     * @param _logisticsID - delivery Truck ID
+     * @param _productID - the product ID
      * @param _temperature - the temperature when started with delivery
      * @param _volume - the volume it received
      */
-    function deliveryTruckDetails(
-        uint256 _deliveryTruckID,
+    function logisticsDetails(
+        uint256 _logisticsID,
         uint256 _productID,
         uint256 _temperature,
+        uint256 _modeOfTransport,
         uint256 _volume
-    ) external  {
-        require(products.length>_productID, "Product doesnot exist");
-        deliveryTrucks[_productID] = DeliveryTruck({
-            deliveryTruckID: _deliveryTruckID,
+    ) external {
+        require(products.length > _productID, "Product doesnot exist");
+        logistics[_productID] = Logistics({
+            logisticsID: _logisticsID,
             temperature: _temperature,
             volume: _volume,
+            modeOfTransport: _modeOfTransport,
             dateTimeStartedDelivering: block.timestamp
         });
+        products[_productID].stage = 4;
     }
 
     /**
      * @notice retailer inputs the details
      * @dev retailer inputs details when received
      * @param _retailerID - Retailer ID
-     * @param _productID - the product ID 
+     * @param _productID - the product ID
      * @param _temperature - the temperature when received
      * @param _volume - the volume it received
      */
@@ -277,35 +298,50 @@ contract SupplyChain {
         uint256 _temperature,
         uint256 _volume
     ) external {
-        require(products.length>_productID, "Product doesnot exist");
+        require(products.length > _productID, "Product doesnot exist");
         retailers[_productID] = Retailer({
             retailerID: _retailerID,
             temperature: _temperature,
             volume: _volume,
             dateTimeReceived: block.timestamp
         });
+        products[_productID].stage = 5;
     }
 
     /**
      * @notice consumer inputs the details
      * @dev consumer inputs details when received
-     * @param _productID - the product ID 
+     * @param _productID - the product ID
      * @param _unitsReceived - units it received
      * @param _temperature - the temperature when received
-     * @param _satisfied - true if satisfied with the product 
+     * @param _satisfied - true if satisfied with the product
      */
-    function consumerDetails(uint256 _productID, uint256 _unitsReceived, uint256 _temperature, bool _satisfied) external {
-        require(products.length>_productID, "Product doesnot exist");
-        // or can be used as bool satsfied with the product condition 
-        if (_temperature < products[_productID].idealTemperature && products[_productID].expiryDate > block.timestamp && _satisfied ) {
+    function consumerDetails(
+        uint256 _productID,
+        uint256 _unitsReceived,
+        uint256 _temperature,
+        bool _satisfied
+    ) external {
+        require(products.length > _productID, "Product doesnot exist");
+        // or can be used as bool satsfied with the product condition
+        if (
+            _temperature < products[_productID].idealTemperature &&
+            products[_productID].expiryDate > block.timestamp &&
+            _satisfied
+        ) {
             customers[_productID].unitsReceivedWithinStd += _unitsReceived;
         } else {
             customers[_productID].unitsReceivedOutsideStd += _unitsReceived;
         }
     }
 
-    function getProduct(uint256 _productID) external view returns(Product memory productDetails) {
-        require(products.length>_productID, "Product doesnot exist");
+    // all getters here
+    function getProduct(
+        uint256 _productID
+    ) external view returns (Product memory productDetails) {
+        require(products.length > _productID, "Product doesnot exist");
         productDetails = products[_productID];
     }
+
+    // function getConsumerCount() {}
 }
