@@ -41,16 +41,21 @@ contract SupplyChain {
     // mapped to productID
     struct Regulator {
         uint256 regulatorID;
-        bool guidelinesMeet; // regulations, guidelines, or codes of practice
-        bool Compliant; // routine inspections, audits, or sampling done
+        bool permitRequirementsFulfilled;
+        bool sanctionsImposed;
+        string analysisInfo;
     }
 
     // mapped to productID
     struct QualityAssurance {
         uint256 assuranceID;
         bool qualityStandardsMeet;
+        bool guidelinesMeet; // regulations, guidelines, or codes of practice
+        bool Compliant; // routine inspections, audits, or sampling done
         bool audited;
         bool verified;
+        uint256 certifyingbodyID;
+        string certificationInfo;
     }
 
     // mapped to productID
@@ -60,6 +65,9 @@ contract SupplyChain {
         uint256 ordersReceived;
         uint256 volume;
         uint256 dateTimeReceived;
+        string warehouseFacilities;
+        string productHandlingInfo;
+
     }
 
     // mapped to productID
@@ -77,11 +85,16 @@ contract SupplyChain {
         uint256 temperature;
         uint256 volume;
         uint256 dateTimeReceived;
+        string complianceInfo;
+        string promotionalInfo;
+        string inventoryInfo;
+
     }
 
     // check will be made regarding dateTimeReceived, temperature, standards and all
     // mapped to productID
     struct Consumer {
+        uint256 consumerID;
         uint256 unitsReceivedWithinStd;
         uint256 unitsReceivedOutsideStd;
     }
@@ -189,20 +202,22 @@ contract SupplyChain {
      * @dev regulator inputs details before supplier
      * @param _productID - product ID
      * @param _regulatorID - true if the quality check is passed and cleared
-     * @param _guidelinesMeet - true if certified as safer to consume
-     * @param _Compliant - the age above which it is safe to consume
+     * @param _permitRequirementsFulfilled - true if certified as safer to consume
+     * @param _sanctionsImposed - the age above which it is safe to consume
      */
     function regulatorDetails(
         uint256 _productID,
         uint256 _regulatorID,
-        bool _guidelinesMeet,
-        bool _Compliant
+        bool _permitRequirementsFulfilled,
+        bool _sanctionsImposed,
+        string memory _analysisInfo
     ) external {
         require(products.length > _productID, "Product doesnot exist");
         regulators[_productID] = Regulator({
             regulatorID: _regulatorID,
-            guidelinesMeet: _guidelinesMeet,
-            Compliant: _Compliant
+            permitRequirementsFulfilled: _permitRequirementsFulfilled,
+            sanctionsImposed: _sanctionsImposed,
+            analysisInfo: _analysisInfo
         });
     }
 
@@ -220,14 +235,22 @@ contract SupplyChain {
         uint256 _assuranceID,
         bool _qualityStandardsMeet,
         bool _audited,
-        bool _verified
+        bool _verified,
+        bool _guidelinesMeet,
+        bool _Compliant,
+        uint256 _certifyingbodyID,
+        string memory _certificationInfo
     ) external {
         require(products.length > _productID, "Product doesnot exist");
         qualityAssuranceAnalysts[_productID] = QualityAssurance({
             assuranceID: _assuranceID,
             qualityStandardsMeet: _qualityStandardsMeet,
             audited: _audited,
-            verified: _verified
+            verified: _verified,
+            guidelinesMeet: _guidelinesMeet,
+            Compliant: _Compliant,
+            certifyingbodyID: _certifyingbodyID,
+            certificationInfo: _certificationInfo
         });
     }
 
@@ -245,7 +268,9 @@ contract SupplyChain {
         uint256 _productID,
         uint256 _temperature,
         uint256 _ordersReceived,
-        uint256 _volume
+        uint256 _volume,
+        string memory _warehouseFacilities,
+        string memory _productHandlingInfo
     ) external {
         require(products.length > _productID, "Product doesnot exist");
         distributors[_productID] = Distributor({
@@ -253,7 +278,9 @@ contract SupplyChain {
             temperature: _temperature,
             ordersReceived: _ordersReceived,
             volume: _volume,
-            dateTimeReceived: block.timestamp
+            dateTimeReceived: block.timestamp,
+            warehouseFacilities: _warehouseFacilities,
+            productHandlingInfo: _productHandlingInfo
         });
         products[_productID].stage = 3;
     }
@@ -296,14 +323,20 @@ contract SupplyChain {
         uint256 _retailerID,
         uint256 _productID,
         uint256 _temperature,
-        uint256 _volume
+        uint256 _volume,
+        string memory _complianceInfo,
+        string memory _promotionalInfo,
+        string memory _inventoryInfo
     ) external {
         require(products.length > _productID, "Product doesnot exist");
         retailers[_productID] = Retailer({
             retailerID: _retailerID,
             temperature: _temperature,
             volume: _volume,
-            dateTimeReceived: block.timestamp
+            dateTimeReceived: block.timestamp,
+            complianceInfo: _complianceInfo,
+            promotionalInfo: _promotionalInfo,
+            inventoryInfo: _inventoryInfo
         });
         products[_productID].stage = 5;
     }
@@ -318,12 +351,14 @@ contract SupplyChain {
      */
     function consumerDetails(
         uint256 _productID,
+        uint256 _consumerID,
         uint256 _unitsReceived,
         uint256 _temperature,
         bool _satisfied
     ) external {
         require(products.length > _productID, "Product doesnot exist");
         // or can be used as bool satsfied with the product condition
+        customers[_productID].consumerID = _consumerID;
         if (
             _temperature < products[_productID].idealTemperature &&
             products[_productID].expiryDate > block.timestamp &&
