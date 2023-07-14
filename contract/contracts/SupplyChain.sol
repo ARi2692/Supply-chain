@@ -370,7 +370,9 @@ contract SupplyChain {
         }
     }
 
-    // all getters here
+    // all getters functions
+
+
     function getProduct(
         uint256 _productID
     ) external view returns (Product memory productDetails) {
@@ -378,5 +380,60 @@ contract SupplyChain {
         productDetails = products[_productID];
     }
 
-    // function getConsumerCount() {}
+    function getFarmer(
+        uint256 _productID
+    ) external view returns (Farmer memory farmer) {
+        require(products.length > _productID, "Product doesnot exist");
+        farmer = farmers[_productID];
+    }
+
+    function getSupplier(
+        uint256 _productID
+    ) external view returns (Supplier memory supplier) {
+        require(products.length > _productID, "Product doesnot exist");
+        supplier = suppliers[_productID];
+    }
+
+    function getRegulator(
+        uint256 _productID
+    ) external view returns (Regulator memory regulator) {
+        require(products.length > _productID, "Product doesnot exist");
+        regulator = regulators[_productID];
+    }
+
+    function getQualityAssurance(
+        uint256 _productID
+    ) external view returns (QualityAssurance memory qualityAssurance) {
+        require(products.length > _productID, "Product doesnot exist");
+        qualityAssurance = qualityAssuranceAnalysts[_productID];
+    }
+
+    function getDistributor(
+        uint256 _productID
+    ) external view returns (Distributor memory distributor) {
+        require(products.length > _productID, "Product doesnot exist");
+        distributor = distributors[_productID];
+    }
+
+    function getLogistics(
+        uint256 _productID
+    ) external view returns (Logistics memory trackLogistics) {
+        require(products.length > _productID, "Product doesnot exist");
+        trackLogistics = logistics[_productID];
+    }
+
+    function getRetailer(
+        uint256 _productID
+    ) external view returns (Retailer memory retailer) {
+        require(products.length > _productID, "Product doesnot exist");
+        retailer = retailers[_productID];
+    }
+
+    function getConsumer(
+        uint256 _productID
+    ) external view returns (Consumer memory consumer) {
+        require(products.length > _productID, "Product doesnot exist");
+        consumer = consumers[_productID];
+    }
+
 }
