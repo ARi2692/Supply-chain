@@ -51,7 +51,7 @@ contract SupplyChain {
         uint256 assuranceID;
         bool qualityStandardsMeet;
         bool guidelinesMeet; // regulations, guidelines, or codes of practice
-        bool Compliant; // routine inspections, audits, or sampling done
+        bool compliant; // routine inspections, audits, or sampling done
         bool audited;
         bool verified;
         uint256 certifyingbodyID;
@@ -67,7 +67,6 @@ contract SupplyChain {
         uint256 dateTimeReceived;
         string warehouseFacilities;
         string productHandlingInfo;
-
     }
 
     // mapped to productID
@@ -88,7 +87,6 @@ contract SupplyChain {
         string complianceInfo;
         string promotionalInfo;
         string inventoryInfo;
-
     }
 
     // check will be made regarding dateTimeReceived, temperature, standards and all
@@ -237,7 +235,7 @@ contract SupplyChain {
         bool _audited,
         bool _verified,
         bool _guidelinesMeet,
-        bool _Compliant,
+        bool _compliant,
         uint256 _certifyingbodyID,
         string memory _certificationInfo
     ) external {
@@ -248,7 +246,7 @@ contract SupplyChain {
             audited: _audited,
             verified: _verified,
             guidelinesMeet: _guidelinesMeet,
-            Compliant: _Compliant,
+            compliant: _compliant,
             certifyingbodyID: _certifyingbodyID,
             certificationInfo: _certificationInfo
         });
@@ -433,7 +431,7 @@ contract SupplyChain {
         uint256 _productID
     ) external view returns (Consumer memory consumer) {
         require(products.length > _productID, "Product doesnot exist");
-        consumer = consumers[_productID];
+        consumer = customers[_productID];
     }
 
 }

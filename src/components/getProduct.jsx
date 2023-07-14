@@ -40,12 +40,16 @@ const GetProduct = ({ productID }) => {
         {productFound && (
           <>
             <p>{`Product Name : ${product.productName}`}</p>
-            <p>{`Product origin : ${product.origin}`}</p>
-            <p>{`Product idealTemperature : ${product.idealTemperature}`}</p>
-            <p>{`Product batchNo : ${product.batchNo}`}</p>
-            <p>{`Product expiryDate : ${product.expiryDate}`}</p>
-            <p>{`Product totalVolume : ${product.totalVolume}`}</p>
-            <p>{`Product instructions : ${product.instructions}`}</p>
+            <p>{`Product Location : ${product.origin}`}</p>
+            <p>{`Product ideal Temperature : ${product.idealTemperature}`}</p>
+            <p>{`Product batch Number : ${product.batchNo}`}</p>
+            <p>{`Product harvest Date : ${product.harvestDate}`}</p>
+            <p>{`Product expiry Date : ${product.expiryDate}`}</p>
+            <p>{`Product total Volume : ${product.totalVolume}`}</p>
+            <p>{`Product Environmental Info : ${product.envInfo}`}</p>
+            <p>{`Product stage : ${product.stage}`}</p>
+            {/* set stage to uint according  */}
+            {/* date format into normal */}
           </>
         )}
       </div>
