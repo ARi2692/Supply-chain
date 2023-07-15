@@ -2,7 +2,7 @@
   padding: 30px;
 }
 
-.deliveryTruck-ID-container {
+.logistics-ID-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,14 +11,14 @@
   padding: 15px;
 }
 
-.deliveryTruck-interest-container {
+.logistics-interest-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 10px;
 }
 
-.deliveryTruck-time-container {
+.logistics-time-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -28,13 +28,13 @@
   padding-bottom: 15px;
 }
 
-.deliveryTruck-time-h3 {
+.logistics-time-h3 {
   display: flex;
   flex-wrap: wrap;
   max-width: 315px;
 }
 
-.deliveryTruck-submit {
+.logistics-submit {
   display: flex;
   justify-content: center;
   gap: 20px;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import "./deliveryTruck.css";
+import "./logistics.css";
 import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
@@ -79,13 +79,13 @@ const SubmitButtonBack = styled.button`
   cursor: pointer;
 `;
 
-const DeliveryTruck = () => {
+const Logistics = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    deliveryTruckID: 0,
+    logisticsID: 0,
     productID: 0,
     temperature: 0,
     volume: 0,
@@ -111,7 +111,7 @@ const DeliveryTruck = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
-      !formInput?.deliveryTruckID ||
+      !formInput?.logisticsID ||
       !formInput?.productID ||
       !formInput?.temperature ||
       !formInput?.volume
@@ -120,8 +120,8 @@ const DeliveryTruck = () => {
       return;
     }
     console.log(
-      "Form submitted with deliveryTruck:",
-      formInput?.deliveryTruckID,
+      "Form submitted with logistics:",
+      formInput?.logisticsID,
       formInput?.productID,
       formInput?.temperature,
       formInput?.volume
@@ -137,8 +137,8 @@ const DeliveryTruck = () => {
       signer
     );
 
-    const tx = await contract.deliveryTruckDetails(
-      formInput?.deliveryTruckID,
+    const tx = await contract.logisticsDetails(
+      formInput?.logisticsID,
       formInput?.productID,
       formInput?.temperature,
       formInput?.volume
@@ -150,7 +150,7 @@ const DeliveryTruck = () => {
       .waitForTransaction(tx.hash, 1, 150000)
       .then(() => {
         navigate("/");
-        toast("DeliveryTruck details logged Successfully !!");
+        toast("Logistics details logged Successfully !!");
       });
   };
 
@@ -158,7 +158,7 @@ const DeliveryTruck = () => {
     <div className="container">
       <ToastContainer />
       <div className="header">
-        <h1>Details by DeliveryTruck</h1>
+        <h1>Details by Logistics</h1>
       </div>
 
       <div className="distributor-ID-container">
@@ -180,16 +180,16 @@ const DeliveryTruck = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
-          <div className="deliveryTruck-ID-container">
-            <h3> deliveryTruck ID </h3>
+          <div className="logistics-ID-container">
+            <h3> logistics ID </h3>
             <Input
               type="number"
               id="ID"
-              value={formInput.deliveryTruckID}
+              value={formInput.logisticsID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  deliveryTruckID: e.target.value,
+                  logisticsID: e.target.value,
                 }))
               }
               required
@@ -249,7 +249,7 @@ const DeliveryTruck = () => {
 
         {productFound && (
           <div>
-            <div className="deliveryTruck-submit">
+            <div className="logistics-submit">
               <div onClick={handleSubmit}>
                 <SubmitButton type="submit">Submit</SubmitButton>
               </div>
@@ -261,4 +261,4 @@ const DeliveryTruck = () => {
   );
 };
 
-export default DeliveryTruck;
+export default Logistics;
