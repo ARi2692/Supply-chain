@@ -104,7 +104,7 @@ const DeliveryTruck = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with manufacturer:", formInput?.productID);
+    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 

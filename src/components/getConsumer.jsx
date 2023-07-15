@@ -27,7 +27,7 @@ const GetConsumer = ({ productID }) => {
       signer
     );
 
-    console.log("Form submitted with manufacturer:", productID);
+    console.log("Form submitted with supplier:", productID);
 
     const tx = await contract.getConsumer(productID - 1);
     setConsumer(tx);

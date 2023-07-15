@@ -27,7 +27,7 @@ const GetQualityAssurance = ({ productID }) => {
       signer
     );
 
-    console.log("Form submitted with manufacturer:", productID);
+    console.log("Form submitted with supplier:", productID);
 
     const tx = await contract.getQualityAssurance(productID - 1);
     setQualityAssurance(tx);

@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 // import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Farmer from "./pages/Farmer";
-import Manufacturer from "./pages/Manufacturer";
+import Supplier from "./pages/Supplier";
 import Processor from "./pages/Processor";
 import DistributionCompany from "./pages/DistributionCompany";
 import DistributionCentre from "./pages/DistributionCentre";
@@ -66,7 +66,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/farmer" element={<Farmer />} />
-            <Route exact path="/manufacturer" element={<Manufacturer />} />
+            <Route exact path="/supplier" element={<Supplier />} />
             <Route exact path="/processor" element={<Processor />} />
             <Route exact path="/distributionCompany" element={<DistributionCompany />} />
             <Route exact path="/distributionCentre" element={<DistributionCentre />} />

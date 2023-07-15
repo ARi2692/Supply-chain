@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import "./manufacturer.css";
+import "./supplier.css";
 import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
@@ -38,13 +38,13 @@ const SubmitButtonBack = styled.button`
   cursor: pointer;
 `;
 
-const Manufacturer = () => {
+const Supplier = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    manufacturerID: 0,
+    supplierID: 0,
     productID: 0,
     temperature: 0,
   });
@@ -55,14 +55,14 @@ const Manufacturer = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with manufacturer:", formInput?.productID);
+    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
-      !formInput?.manufacturerID ||
+      !formInput?.supplierID ||
       !formInput?.productID ||
       !formInput?.temperature
     ) {
@@ -70,8 +70,8 @@ const Manufacturer = () => {
       return;
     }
     console.log(
-      "Form submitted with manufacturer:",
-      formInput?.manufacturerID,
+      "Form submitted with supplier:",
+      formInput?.supplierID,
       formInput?.productID,
       formInput?.temperature
     );
@@ -86,8 +86,8 @@ const Manufacturer = () => {
       signer
     );
 
-    const tx = await contract.manufacturerDetails(
-      formInput?.manufacturerID,
+    const tx = await contract.supplierDetails(
+      formInput?.supplierID,
       formInput?.productID,
       formInput?.temperature
     );
@@ -97,7 +97,7 @@ const Manufacturer = () => {
     console.log("logged !");
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
       navigate("/");
-      toast("Manufacturer details logged Successfully !!");
+      toast("Supplier details logged Successfully !!");
     });
   };
 
@@ -105,10 +105,10 @@ const Manufacturer = () => {
     <div className="container">
       <ToastContainer />
       <div className="header">
-        <h1>Details by Manufacturer</h1>
+        <h1>Details by Supplier</h1>
       </div>
 
-      <div className="manufacturer-ID-container">
+      <div className="supplier-ID-container">
         <h3> product ID </h3>
         <Input
           type="number"
@@ -128,23 +128,23 @@ const Manufacturer = () => {
         <>
           <Product productID={formInput.productID} />
 
-          <div className="manufacturer-ID-container">
-            <h3> manufacturer ID </h3>
+          <div className="supplier-ID-container">
+            <h3> supplier ID </h3>
             <Input
               type="number"
               id="ID"
-              value={formInput.manufacturerID}
+              value={formInput.supplierID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  manufacturerID: e.target.value,
+                  supplierID: e.target.value,
                 }))
               }
               required
             />
           </div>
 
-          <div className="manufacturer-ID-container">
+          <div className="supplier-ID-container">
             <h3> Temperature </h3>
             <Input
               type="number"
@@ -171,7 +171,7 @@ const Manufacturer = () => {
 
         {!productFound && (
           <div>
-            <div className="manufacturer-submit">
+            <div className="supplier-submit">
               <div onClick={handleCheck}>
                 <SubmitButton type="submit">Check</SubmitButton>
               </div>
@@ -181,7 +181,7 @@ const Manufacturer = () => {
 
         {productFound && (
           <div>
-            <div className="manufacturer-submit">
+            <div className="supplier-submit">
               <div onClick={handleSubmit}>
                 <SubmitButton type="submit">Submit</SubmitButton>
               </div>
@@ -193,4 +193,4 @@ const Manufacturer = () => {
   );
 };
 
-export default Manufacturer;
+export default Supplier;

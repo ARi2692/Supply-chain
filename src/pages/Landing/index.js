@@ -25,7 +25,7 @@ const Landing = () => {
         </Link>
       </div>
       <div className="float-container">
-      <Link to="/manufacturer">
+      <Link to="/supplier">
           <div className="float-child-right">
             <h2>Supplier</h2>
           </div>
