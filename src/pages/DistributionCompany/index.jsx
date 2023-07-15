@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import "./distributionCompany.css";
+import "./distributor.css";
 import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
@@ -38,13 +38,13 @@ const SubmitButtonBack = styled.button`
   cursor: pointer;
 `;
 
-const DistributionCompany = () => {
+const Distributor = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    distributionCompanyID: 0,
+    distributorID: 0,
     productID: 0,
     temperature: 0,
     ordersReceived: 0,
@@ -64,7 +64,7 @@ const DistributionCompany = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
-      !formInput?.distributionCompanyID ||
+      !formInput?.distributorID ||
       !formInput?.productID ||
       !formInput?.temperature ||
       !formInput?.ordersReceived ||
@@ -74,8 +74,8 @@ const DistributionCompany = () => {
       return;
     }
     console.log(
-      "Form submitted with distributionCompany:",
-      formInput?.distributionCompanyID,
+      "Form submitted with distributor:",
+      formInput?.distributorID,
       formInput?.productID,
       formInput?.temperature,
       formInput?.ordersReceived,
@@ -92,8 +92,8 @@ const DistributionCompany = () => {
       signer
     );
 
-    const tx = await contract.distributionCompanyDetails(
-      formInput?.distributionCompanyID,
+    const tx = await contract.distributorDetails(
+      formInput?.distributorID,
       formInput?.productID,
       formInput?.temperature,
       formInput?.ordersReceived,
@@ -104,7 +104,7 @@ const DistributionCompany = () => {
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
       navigate("/");
-      toast("DistributionCompany details logged Successfully !!");
+      toast("Distributor details logged Successfully !!");
     });
   };
 
@@ -112,10 +112,10 @@ const DistributionCompany = () => {
     <div className="container">
       <ToastContainer />
       <div className="header">
-        <h1>Details by DistributionCompany</h1>
+        <h1>Details by Distributor</h1>
       </div>
 
-      <div className="distributionCompany-ID-container">
+      <div className="distributor-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
@@ -134,23 +134,23 @@ const DistributionCompany = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
-          <div className="distributionCompany-ID-container">
-            <h3> distributionCompany ID </h3>
+          <div className="distributor-ID-container">
+            <h3> distributor ID </h3>
             <Input
               type="number"
               id="ID"
-              value={formInput.distributionCompanyID}
+              value={formInput.distributorID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  distributionCompanyID: e.target.value,
+                  distributorID: e.target.value,
                 }))
               }
               required
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> orders Received </h3>
             <Input
               type="number"
@@ -166,7 +166,7 @@ const DistributionCompany = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> volume </h3>
             <Input
               type="number"
@@ -182,7 +182,7 @@ const DistributionCompany = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> Temperature </h3>
             <Input
               type="number"
@@ -219,7 +219,7 @@ const DistributionCompany = () => {
 
         {productFound && (
           <div>
-            <div className="distributionCompany-submit">
+            <div className="distributor-submit">
               <div onClick={handleSubmit}>
                 <SubmitButton type="submit">Submit</SubmitButton>
               </div>
@@ -231,4 +231,4 @@ const DistributionCompany = () => {
   );
 };
 
-export default DistributionCompany;
+export default Distributor;

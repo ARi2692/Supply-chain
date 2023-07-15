@@ -115,7 +115,7 @@ const DistributionCentre = () => {
         <h1>Details by DistributionCentre</h1>
       </div>
 
-      <div className="distributionCompany-ID-container">
+      <div className="distributor-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
@@ -150,7 +150,7 @@ const DistributionCentre = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> orders Received </h3>
             <Input
               type="number"
@@ -166,7 +166,7 @@ const DistributionCentre = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> volume </h3>
             <Input
               type="number"
@@ -182,7 +182,7 @@ const DistributionCentre = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> Temperature </h3>
             <Input
               type="number"

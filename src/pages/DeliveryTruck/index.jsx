@@ -161,7 +161,7 @@ const DeliveryTruck = () => {
         <h1>Details by DeliveryTruck</h1>
       </div>
 
-      <div className="distributionCompany-ID-container">
+      <div className="distributor-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
@@ -196,7 +196,7 @@ const DeliveryTruck = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> volume </h3>
             <Input
               type="number"
@@ -212,7 +212,7 @@ const DeliveryTruck = () => {
             />
           </div>
 
-          <div className="distributionCompany-ID-container">
+          <div className="distributor-ID-container">
             <h3> Temperature </h3>
             <Input
               type="number"

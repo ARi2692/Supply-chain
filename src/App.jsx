@@ -7,7 +7,7 @@ import Landing from "./pages/Landing";
 import Farmer from "./pages/Farmer";
 import Supplier from "./pages/Supplier";
 import Processor from "./pages/Processor";
-import DistributionCompany from "./pages/DistributionCompany";
+import Distributor from "./pages/Distributor";
 import DistributionCentre from "./pages/DistributionCentre";
 import DeliveryTruck from "./pages/DeliveryTruck";
 import Consumer from "./pages/Consumer";
@@ -68,7 +68,7 @@ function App() {
             <Route exact path="/farmer" element={<Farmer />} />
             <Route exact path="/supplier" element={<Supplier />} />
             <Route exact path="/processor" element={<Processor />} />
-            <Route exact path="/distributionCompany" element={<DistributionCompany />} />
+            <Route exact path="/distributor" element={<Distributor />} />
             <Route exact path="/distributionCentre" element={<DistributionCentre />} />
             <Route exact path="/deliveryTruck" element={<DeliveryTruck />} />
             <Route exact path="/retailer" element={<Retailer />} />

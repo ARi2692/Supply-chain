@@ -30,9 +30,9 @@ const Landing = () => {
             <h2>Supplier</h2>
           </div>
         </Link>
-        <Link to="/distributionCompany">
+        <Link to="/distributor">
           <div className="float-child-right">
-            <h2>DistributionCompany</h2>
+            <h2>Distributor</h2>
           </div>
         </Link>
       </div>
