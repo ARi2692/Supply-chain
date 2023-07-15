@@ -2,7 +2,7 @@
   padding: 30px;
 }
 
-.distributionCentre-ID-container {
+.qualityAssurance-ID-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,14 +11,14 @@
   padding: 15px;
 }
 
-.distributionCentre-interest-container {
+.qualityAssurance-interest-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 10px;
 }
 
-.distributionCentre-time-container {
+.qualityAssurance-time-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -28,13 +28,13 @@
   padding-bottom: 15px;
 }
 
-.distributionCentre-time-h3 {
+.qualityAssurance-time-h3 {
   display: flex;
   flex-wrap: wrap;
   max-width: 315px;
 }
 
-.distributionCentre-submit {
+.qualityAssurance-submit {
   display: flex;
   justify-content: center;
   gap: 20px;

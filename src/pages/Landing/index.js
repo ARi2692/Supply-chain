@@ -18,28 +18,28 @@ const Landing = () => {
             <h2>Farmer</h2>
           </div>
         </Link>
-        <Link to="/regulator">
-          <div className="float-child-left">
-            <h2>Regulator</h2>
-          </div>
-        </Link>
-      </div>
-      <div className="float-container">
-      <Link to="/supplier">
+        <Link to="/supplier">
           <div className="float-child-right">
             <h2>Supplier</h2>
           </div>
         </Link>
-        <Link to="/distributor">
-          <div className="float-child-right">
-            <h2>Distributor</h2>
+      </div>
+      <div className="float-container">
+      <Link to="/regulator">
+          <div className="float-child-left">
+            <h2>Regulator</h2>
+          </div>
+        </Link>
+        <Link to="/qualityAssurance">
+          <div className="float-child-left">
+            <h2>QualityAssurance</h2>
           </div>
         </Link>
       </div>
       <div className="float-container">
-        <Link to="/distributionCentre">
-          <div className="float-child-left">
-            <h2>DistributionCentre</h2>
+      <Link to="/distributor">
+          <div className="float-child-right">
+            <h2>Distributor</h2>
           </div>
         </Link>
         <Link to="/deliveryTruck">

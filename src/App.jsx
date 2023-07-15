@@ -8,7 +8,7 @@ import Farmer from "./pages/Farmer";
 import Supplier from "./pages/Supplier";
 import Regulator from "./pages/Regulator";
 import Distributor from "./pages/Distributor";
-import DistributionCentre from "./pages/DistributionCentre";
+import QualityAssurance from "./pages/QualityAssurance";
 import DeliveryTruck from "./pages/DeliveryTruck";
 import Consumer from "./pages/Consumer";
 import Retailer from "./pages/Retailer";
@@ -69,7 +69,7 @@ function App() {
             <Route exact path="/supplier" element={<Supplier />} />
             <Route exact path="/regulator" element={<Regulator />} />
             <Route exact path="/distributor" element={<Distributor />} />
-            <Route exact path="/distributionCentre" element={<DistributionCentre />} />
+            <Route exact path="/qualityAssurance" element={<QualityAssurance />} />
             <Route exact path="/deliveryTruck" element={<DeliveryTruck />} />
             <Route exact path="/retailer" element={<Retailer />} />
             <Route exact path="/consumer" element={<Consumer />} />

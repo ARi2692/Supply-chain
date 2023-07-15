@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import "./distributionCentre.css";
+import "./qualityAssurance.css";
 import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
@@ -38,13 +38,13 @@ const SubmitButtonBack = styled.button`
   cursor: pointer;
 `;
 
-const DistributionCentre = () => {
+const QualityAssurance = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    distributionCentreID: 0,
+    qualityAssuranceID: 0,
     productID: 0,
     temperature: 0,
     ordersReceived: 0,
@@ -64,7 +64,7 @@ const DistributionCentre = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
-      !formInput?.distributionCentreID ||
+      !formInput?.qualityAssuranceID ||
       !formInput?.productID ||
       !formInput?.temperature ||
       !formInput?.ordersReceived ||
@@ -74,8 +74,8 @@ const DistributionCentre = () => {
       return;
     }
     console.log(
-      "Form submitted with distributionCentre:",
-      formInput?.distributionCentreID,
+      "Form submitted with qualityAssurance:",
+      formInput?.qualityAssuranceID,
       formInput?.productID,
       formInput?.temperature,
       formInput?.ordersReceived,
@@ -92,8 +92,8 @@ const DistributionCentre = () => {
       signer
     );
 
-    const tx = await contract.distributionCentreDetails(
-      formInput?.distributionCentreID,
+    const tx = await contract.qualityAssuranceDetails(
+      formInput?.qualityAssuranceID,
       formInput?.productID,
       formInput?.temperature,
       formInput?.ordersReceived,
@@ -104,7 +104,7 @@ const DistributionCentre = () => {
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
       navigate("/");
-      toast("DistributionCentre details logged Successfully !!");
+      toast("QualityAssurance details logged Successfully !!");
     });
   };
 
@@ -112,7 +112,7 @@ const DistributionCentre = () => {
     <div className="container">
       <ToastContainer />
       <div className="header">
-        <h1>Details by DistributionCentre</h1>
+        <h1>Details by QualityAssurance</h1>
       </div>
 
       <div className="distributor-ID-container">
@@ -134,16 +134,16 @@ const DistributionCentre = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
-          <div className="distributionCentre-ID-container">
-            <h3> distributionCentre ID </h3>
+          <div className="qualityAssurance-ID-container">
+            <h3> qualityAssurance ID </h3>
             <Input
               type="number"
               id="ID"
-              value={formInput.distributionCentreID}
+              value={formInput.qualityAssuranceID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  distributionCentreID: e.target.value,
+                  qualityAssuranceID: e.target.value,
                 }))
               }
               required
@@ -219,7 +219,7 @@ const DistributionCentre = () => {
 
         {productFound && (
           <div>
-            <div className="distributionCentre-submit">
+            <div className="qualityAssurance-submit">
               <div onClick={handleSubmit}>
                 <SubmitButton type="submit">Submit</SubmitButton>
               </div>
@@ -231,4 +231,4 @@ const DistributionCentre = () => {
   );
 };
 
-export default DistributionCentre;
+export default QualityAssurance;
