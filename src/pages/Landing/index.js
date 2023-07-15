@@ -18,9 +18,9 @@ const Landing = () => {
             <h2>Farmer</h2>
           </div>
         </Link>
-        <Link to="/processor">
+        <Link to="/regulator">
           <div className="float-child-left">
-            <h2>Processor</h2>
+            <h2>Regulator</h2>
           </div>
         </Link>
       </div>

@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Farmer from "./pages/Farmer";
 import Supplier from "./pages/Supplier";
-import Processor from "./pages/Processor";
+import Regulator from "./pages/Regulator";
 import Distributor from "./pages/Distributor";
 import DistributionCentre from "./pages/DistributionCentre";
 import DeliveryTruck from "./pages/DeliveryTruck";
@@ -67,7 +67,7 @@ function App() {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/farmer" element={<Farmer />} />
             <Route exact path="/supplier" element={<Supplier />} />
-            <Route exact path="/processor" element={<Processor />} />
+            <Route exact path="/regulator" element={<Regulator />} />
             <Route exact path="/distributor" element={<Distributor />} />
             <Route exact path="/distributionCentre" element={<DistributionCentre />} />
             <Route exact path="/deliveryTruck" element={<DeliveryTruck />} />

@@ -2,7 +2,7 @@
   padding: 30px;
 }
 
-.processor-ID-container {
+.regulator-ID-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,14 +11,14 @@
   padding: 15px;
 }
 
-.processor-interest-container {
+.regulator-interest-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 10px;
 }
 
-.processor-time-container {
+.regulator-time-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -28,13 +28,13 @@
   padding-bottom: 15px;
 }
 
-.processor-time-h3 {
+.regulator-time-h3 {
   display: flex;
   flex-wrap: wrap;
   max-width: 315px;
 }
 
-.processor-submit {
+.regulator-submit {
   display: flex;
   justify-content: center;
   gap: 20px;

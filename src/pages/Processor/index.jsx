@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import "./processor.css";
+import "./regulator.css";
 import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
@@ -38,13 +38,13 @@ const SubmitButtonBack = styled.button`
   cursor: pointer;
 `;
 
-const Processor = () => {
+const Regulator = () => {
   const { chain } = useNetwork();
   const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    // processorID: 0,
+    // regulatorID: 0,
     productID: 0,
     qualityCheck: false,
     saferToConsume: false,
@@ -68,7 +68,7 @@ const Processor = () => {
       return;
     }
     console.log(
-      "Form submitted with processor:",
+      "Form submitted with regulator:",
       formInput?.productID,
       formInput?.qualityCheck,
       formInput?.saferToConsume,
@@ -85,7 +85,7 @@ const Processor = () => {
       signer
     );
 
-    const tx = await contract.processorDetails(
+    const tx = await contract.regulatorDetails(
       formInput?.productID,
       formInput?.qualityCheck,
       formInput?.saferToConsume,
@@ -97,7 +97,7 @@ const Processor = () => {
     console.log("logged !");
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
       navigate("/");
-      toast("Processor details logged Successfully !!");
+      toast("Regulator details logged Successfully !!");
     });
   };
 
@@ -105,10 +105,10 @@ const Processor = () => {
     <div className="container">
       <ToastContainer />
       <div className="header">
-        <h1>Details by Processor</h1>
+        <h1>Details by Regulator</h1>
       </div>
 
-      <div className="processor-ID-container">
+      <div className="regulator-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
@@ -128,7 +128,7 @@ const Processor = () => {
         <>
           <Product productID={formInput.productID} />
 
-          <div className="processor-ID-container">
+          <div className="regulator-ID-container">
             <h3> quality Check </h3>
             <Input
               type="checkbox"
@@ -144,7 +144,7 @@ const Processor = () => {
             />
           </div>
 
-          <div className="processor-ID-container">
+          <div className="regulator-ID-container">
             <h3> safer To Consume </h3>
             <Input
               type="checkbox"
@@ -160,7 +160,7 @@ const Processor = () => {
             />
           </div>
 
-          <div className="processor-ID-container">
+          <div className="regulator-ID-container">
             <h3> safe Above Age </h3>
             <Input
               type="number"
@@ -187,7 +187,7 @@ const Processor = () => {
 
         {!productFound && (
           <div>
-            <div className="processor-submit">
+            <div className="regulator-submit">
               <div onClick={handleCheck}>
                 <SubmitButton type="submit">Check</SubmitButton>
               </div>
@@ -197,7 +197,7 @@ const Processor = () => {
 
         {productFound && (
           <div>
-            <div className="processor-submit">
+            <div className="regulator-submit">
               <div onClick={handleSubmit}>
                 <SubmitButton type="submit">Submit</SubmitButton>
               </div>
@@ -209,4 +209,4 @@ const Processor = () => {
   );
 };
 
-export default Processor;
+export default Regulator;

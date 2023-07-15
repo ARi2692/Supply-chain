@@ -209,7 +209,7 @@ const DistributionCentre = () => {
 
         {!productFound && (
           <div>
-            <div className="processor-submit">
+            <div className="regulator-submit">
               <div onClick={handleCheck}>
                 <SubmitButton type="submit">Check</SubmitButton>
               </div>
