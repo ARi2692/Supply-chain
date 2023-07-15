@@ -151,7 +151,7 @@ const Farmer = () => {
       </div>
 
       <div className="farmer-ID-container">
-        <h3> Origin </h3>
+        <h3> Location </h3>
         <Input
           type="text"
           id="origin"

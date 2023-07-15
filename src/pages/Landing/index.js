@@ -25,20 +25,20 @@ const Landing = () => {
         </Link>
       </div>
       <div className="float-container">
-      <Link to="/regulator">
+        <Link to="/regulator">
           <div className="float-child-left">
             <h2>Regulator</h2>
           </div>
         </Link>
         <Link to="/qualityAssurance">
-          <div className="float-child-left">
-            <h2>QualityAssurance</h2>
+          <div className="float-child-right">
+            <h2>Quality Assurance</h2>
           </div>
         </Link>
       </div>
       <div className="float-container">
-      <Link to="/distributor">
-          <div className="float-child-right">
+        <Link to="/distributor">
+          <div className="float-child-left">
             <h2>Distributor</h2>
           </div>
         </Link>
