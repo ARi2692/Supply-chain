@@ -46,9 +46,10 @@ const Regulator = () => {
   const [formInput, updateFormInput] = useState({
     // regulatorID: 0,
     productID: 0,
-    qualityCheck: false,
-    saferToConsume: false,
-    safeAboveAge: 0,
+    regulatorID: 0,
+    permitRequirementsFulfilled: false,
+    sanctionsImposed: false,
+    analysisInfo: "",
   });
 
   const handleCheck = async (event) => {
@@ -70,9 +71,10 @@ const Regulator = () => {
     console.log(
       "Form submitted with regulator:",
       formInput?.productID,
-      formInput?.qualityCheck,
-      formInput?.saferToConsume,
-      formInput?.safeAboveAge
+      formInput?.regulatorID,
+      formInput?.permitRequirementsFulfilled,
+      formInput?.sanctionsImposed,
+      formInput?.analysisInfo
     );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
@@ -87,9 +89,10 @@ const Regulator = () => {
 
     const tx = await contract.regulatorDetails(
       formInput?.productID,
-      formInput?.qualityCheck,
-      formInput?.saferToConsume,
-      formInput?.safeAboveAge
+      formInput?.regulatorID,
+      formInput?.permitRequirementsFulfilled,
+      formInput?.sanctionsImposed,
+      formInput?.analysisInfo
     );
 
     // transaction for contract
@@ -129,47 +132,63 @@ const Regulator = () => {
           <Product productID={formInput.productID} />
 
           <div className="regulator-ID-container">
-            <h3> quality Check </h3>
-            <Input
-              type="checkbox"
-              id="Check"
-              value={formInput.qualityCheck}
-              onChange={(e) =>
-                updateFormInput((formInput) => ({
-                  ...formInput,
-                  qualityCheck: e.target.value,
-                }))
-              }
-              required
-            />
-          </div>
-
-          <div className="regulator-ID-container">
-            <h3> safer To Consume </h3>
-            <Input
-              type="checkbox"
-              id="safer"
-              value={formInput.saferToConsume}
-              onChange={(e) =>
-                updateFormInput((formInput) => ({
-                  ...formInput,
-                  saferToConsume: e.target.value,
-                }))
-              }
-              required
-            />
-          </div>
-
-          <div className="regulator-ID-container">
-            <h3> safe Above Age </h3>
+            <h3> Regulator ID </h3>
             <Input
               type="number"
-              id="batchNo"
-              value={formInput.safeAboveAge}
+              id="regulatorID"
+              value={formInput.regulatorID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  safeAboveAge: e.target.value,
+                  regulatorID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="regulator-ID-container">
+            <h3> Permit Requirements Fulfilled </h3>
+            <Input
+              type="checkbox"
+              id="permitRequirementsFulfilled"
+              value={formInput.permitRequirementsFulfilled}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  permitRequirementsFulfilled: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="regulator-ID-container">
+            <h3> Sanctions Imposed </h3>
+            <Input
+              type="checkbox"
+              id="sanctionsImposed"
+              value={formInput.sanctionsImposed}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  sanctionsImposed: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="regulator-ID-container">
+            <h3> Analysis Info </h3>
+            <Input
+              type="text"
+              id="analysisInfo"
+              value={formInput.analysisInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  analysisInfo: e.target.value,
                 }))
               }
               required

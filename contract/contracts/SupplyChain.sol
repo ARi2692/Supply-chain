@@ -171,6 +171,7 @@ contract SupplyChain {
      * @param _productID - the product ID
      * @param _temperature - the temperature at the time of delivery
      */
+    //  change supplier to Supplier
     function processorAndsupplierDetails(
         uint256 _supplierID,
         uint256 _productID,

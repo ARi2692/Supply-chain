@@ -101,7 +101,7 @@ const Supplier = () => {
       signer
     );
 
-    const tx = await contract.supplierDetails(
+    const tx = await contract.processorAndsupplierDetails(
       formInput?.supplierID,
       formInput?.productID,
       formInput?.temperature,

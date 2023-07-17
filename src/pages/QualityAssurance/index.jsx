@@ -44,11 +44,15 @@ const QualityAssurance = () => {
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    qualityAssuranceID: 0,
     productID: 0,
-    temperature: 0,
-    ordersReceived: 0,
-    volume: 0,
+    assuranceID: 0,
+    qualityStandardsMeet: false,
+    audited: false,
+    verified: false,
+    guidelinesMeet: false,
+    compliant: false,
+    certifyingbodyID: 0,
+    certificationInfo: '',
   });
 
   const handleCheck = async (event) => {
@@ -64,22 +68,24 @@ const QualityAssurance = () => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
-      !formInput?.qualityAssuranceID ||
+      !formInput?.assuranceID ||
       !formInput?.productID ||
-      !formInput?.temperature ||
-      !formInput?.ordersReceived ||
-      !formInput?.volume
+      !formInput?.certifyingbodyID ||
+      !formInput?.certificationInfo
     ) {
       toast("Please fill all the fields!");
       return;
     }
     console.log(
       "Form submitted with qualityAssurance:",
-      formInput?.qualityAssuranceID,
-      formInput?.productID,
-      formInput?.temperature,
-      formInput?.ordersReceived,
-      formInput?.volume
+      formInput?.assuranceID,
+      formInput?.qualityStandardsMeet,
+      formInput?.audited,
+      formInput?.verified,
+      formInput?.guidelinesMeet,
+      formInput?.compliant,
+      formInput?.certifyingbodyID,
+      formInput?.certificationInfo
     );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
@@ -92,12 +98,16 @@ const QualityAssurance = () => {
       signer
     );
 
-    const tx = await contract.qualityAssuranceDetails(
-      formInput?.qualityAssuranceID,
+    const tx = await contract.qualityAssuranceAnalystDetails(
       formInput?.productID,
-      formInput?.temperature,
-      formInput?.ordersReceived,
-      formInput?.volume
+      formInput?.assuranceID,
+      formInput?.qualityStandardsMeet,
+      formInput?.audited,
+      formInput?.verified,
+      formInput?.guidelinesMeet,
+      formInput?.compliant,
+      formInput?.certifyingbodyID,
+      formInput?.certificationInfo
     );
 
     // transaction for contract
@@ -115,11 +125,11 @@ const QualityAssurance = () => {
         <h1>Details by QualityAssurance</h1>
       </div>
 
-      <div className="distributor-ID-container">
+      <div className="qualityAssurance-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
-          id="name"
+          id="ID"
           value={formInput.productID}
           onChange={(e) =>
             updateFormInput((formInput) => ({
@@ -134,64 +144,129 @@ const QualityAssurance = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
+
           <div className="qualityAssurance-ID-container">
-            <h3> qualityAssurance ID </h3>
+            <h3> Quality Assurance ID </h3>
             <Input
               type="number"
-              id="ID"
-              value={formInput.qualityAssuranceID}
+              id="assuranceID"
+              value={formInput.assuranceID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  qualityAssuranceID: e.target.value,
+                  assuranceID: e.target.value,
                 }))
               }
               required
             />
           </div>
 
-          <div className="distributor-ID-container">
-            <h3> orders Received </h3>
+          <div className="qualityAssurance-ID-container">
+            <h3> Quality Standards Meet </h3>
             <Input
-              type="number"
-              id="origin"
-              value={formInput.ordersReceived}
+              type="checkbox"
+              id="qualityStandardsMeet"
+              value={formInput.qualityStandardsMeet}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  ordersReceived: e.target.value,
+                  qualityStandardsMeet: e.target.value,
                 }))
               }
               required
             />
           </div>
 
-          <div className="distributor-ID-container">
-            <h3> volume </h3>
+          <div className="qualityAssurance-ID-container">
+            <h3> Audited </h3>
             <Input
-              type="number"
-              id="batchNo"
-              value={formInput.volume}
+              type="checkbox"
+              id="audited"
+              value={formInput.audited}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  volume: e.target.value,
+                  audited: e.target.value,
                 }))
               }
               required
             />
           </div>
 
-          <div className="distributor-ID-container">
-            <h3> Temperature </h3>
+          <div className="qualityAssurance-ID-container">
+            <h3> Verified </h3>
             <Input
-              type="number"
-              id="temperatureLimit"
-              value={formInput.temperature}
+              type="checkbox"
+              id="verified"
+              value={formInput.verified}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
                   ...formInput,
-                  temperature: e.target.value,
+                  verified: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="qualityAssurance-ID-container">
+            <h3> Guidelines Meet </h3>
+            <Input
+              type="checkbox"
+              id="guidelinesMeet"
+              value={formInput.guidelinesMeet}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  guidelinesMeet: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="qualityAssurance-ID-container">
+            <h3> Compliant </h3>
+            <Input
+              type="checkbox"
+              id="compliant"
+              value={formInput.compliant}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  compliant: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="qualityAssurance-ID-container">
+            <h3> Certifying Body ID </h3>
+            <Input
+              type="number"
+              id="certifyingbodyID"
+              value={formInput.certifyingbodyID}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  certifyingbodyID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="qualityAssurance-ID-container">
+            <h3> Certification Info </h3>
+            <Input
+              type="text"
+              id="certificationInfo"
+              value={formInput.certificationInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  certificationInfo: e.target.value,
                 }))
               }
               required
@@ -209,7 +284,7 @@ const QualityAssurance = () => {
 
         {!productFound && (
           <div>
-            <div className="regulator-submit">
+            <div className="qualityAssurance-submit">
               <div onClick={handleCheck}>
                 <SubmitButton type="submit">Check</SubmitButton>
               </div>
