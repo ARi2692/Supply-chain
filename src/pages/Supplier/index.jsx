@@ -47,6 +47,11 @@ const Supplier = () => {
     supplierID: 0,
     productID: 0,
     temperature: 0,
+    specificationsAndProcessingInfo: "",
+    safeAboveAge: 0,
+    batchNo: 0,
+    expiryDate: new Date(),
+    isOrganic: false
   });
 
   const handleCheck = async (event) => {
@@ -64,7 +69,12 @@ const Supplier = () => {
     if (
       !formInput?.supplierID ||
       !formInput?.productID ||
-      !formInput?.temperature
+      !formInput?.temperature ||
+      !formInput?.specificationsAndProcessingInfo ||
+      !formInput?.safeAboveAge ||
+      !formInput?.batchNo ||
+      !formInput?.expiryDate ||
+      !formInput?.isOrganic
     ) {
       toast("Please fill all the fields!");
       return;
@@ -73,7 +83,12 @@ const Supplier = () => {
       "Form submitted with supplier:",
       formInput?.supplierID,
       formInput?.productID,
-      formInput?.temperature
+      formInput?.temperature,
+      formInput?.specificationsAndProcessingInfo,
+      formInput?.safeAboveAge,
+      formInput?.batchNo,
+      formInput?.expiryDate,
+      formInput?.isOrganic
     );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
@@ -89,7 +104,12 @@ const Supplier = () => {
     const tx = await contract.supplierDetails(
       formInput?.supplierID,
       formInput?.productID,
-      formInput?.temperature
+      formInput?.temperature,
+      formInput?.specificationsAndProcessingInfo,
+      formInput?.safeAboveAge,
+      formInput?.batchNo,
+      formInput?.expiryDate,
+      formInput?.isOrganic
     );
 
     // transaction for contract
@@ -159,6 +179,87 @@ const Supplier = () => {
               required
             />
           </div>
+
+          <div className="supplier-ID-container">
+            <h3> specifications And Processing Info </h3>
+            <Input
+              type="text"
+              id="specificationsAndProcessingInfo"
+              value={formInput.specificationsAndProcessingInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  specificationsAndProcessingInfo: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="supplier-ID-container">
+            <h3> Safe Above Age </h3>
+            <Input
+              type="number"
+              id="safeAboveAge"
+              value={formInput.safeAboveAge}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  safeAboveAge: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="supplier-ID-container">
+            <h3> batch Number </h3>
+            <Input
+              type="number"
+              id="batchNo"
+              value={formInput.batchNo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  batchNo: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="supplier-ID-container">
+            <h3> Expiry Date </h3>
+            <Input
+              type="date"
+              id="expiryDate"
+              value={formInput.expiryDate}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  expiryDate: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="supplier-ID-container">
+            <h3> Is it Organic? </h3>
+            <Input
+              type="checkbox"
+              id="isOrganic"
+              value={formInput.isOrganic}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  isOrganic: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
         </>
       )}
 

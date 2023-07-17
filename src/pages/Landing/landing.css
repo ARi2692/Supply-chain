@@ -14,7 +14,7 @@ h4 {
 
 .float-container {
   overflow: hidden;
-  height: 17vh;
+  height: 14vh;
   justify-content: center;
   margin-top: 0px;
   padding: 0px;
@@ -55,4 +55,17 @@ h4 {
 .lottie-borrow {
   width: 40%;
   padding-left: 180px;
+}
+
+.float-child-center {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 5px;
+  width: 95%;
+  padding: 10px;
+  background-color: rgb(212, 237, 213);
+}
+
+.float-child-center:hover {
+  background-color: #d1ede1;
 }

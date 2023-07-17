@@ -9,6 +9,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
+import { BsInfoCircle } from "react-icons/bs";
+// import {ReactTooltip} from 'react-tooltip';
 
 const Input = styled.input`
   padding: 10px;
@@ -46,11 +48,10 @@ const Farmer = () => {
     farmerID: 0,
     productName: "",
     origin: "",
-    batchNo: 0,
-    expiryDate: 0,
+    harvestDate: new Date(),
     totalVolume: 0,
     temperatureLimit: 0,
-    instructions: "",
+    envInfo: "",
   });
 
   const handleSubmit = async (event) => {
@@ -59,11 +60,10 @@ const Farmer = () => {
       !formInput?.farmerID ||
       !formInput?.productName ||
       !formInput?.origin ||
-      !formInput?.batchNo ||
-      !formInput?.expiryDate ||
+      !formInput?.harvestDate ||
       !formInput?.totalVolume ||
       !formInput?.temperatureLimit ||
-      !formInput?.instructions
+      !formInput?.envInfo
     ) {
       toast("Please fill all the fields!");
       return;
@@ -73,14 +73,13 @@ const Farmer = () => {
       formInput?.farmerID,
       formInput?.productName,
       formInput?.origin,
-      formInput?.batchNo,
-      formInput?.expiryDate,
+      formInput?.harvestDate,
       formInput?.totalVolume,
       formInput?.temperatureLimit,
-      formInput?.instructions
+      formInput?.envInfo
     );
 
-    var unixTimestamp = moment(formInput?.expiryDate, "YYYY.MM.DD").unix();
+    var unixTimestamp = moment(formInput?.harvestDate, "YYYY.MM.DD").unix();
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
@@ -96,18 +95,17 @@ const Farmer = () => {
       formInput?.farmerID,
       formInput?.productName,
       formInput?.origin,
-      formInput?.batchNo,
       unixTimestamp,
       formInput?.totalVolume,
       formInput?.temperatureLimit,
-      formInput?.instructions
+      formInput?.envInfo
     );
 
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
-      navigate("/");
       toast("Farmer details logged Successfully !!");
+      navigate("/");
     });
   };
 
@@ -166,7 +164,7 @@ const Farmer = () => {
         />
       </div>
 
-      <div className="farmer-ID-container">
+      {/* <div className="farmer-ID-container">
         <h3> batch Number </h3>
         <Input
           type="number"
@@ -180,18 +178,18 @@ const Farmer = () => {
           }
           required
         />
-      </div>
+      </div> */}
 
       <div className="farmer-ID-container">
-        <h3> Expiry Date </h3>
+        <h3> Harvest Date </h3>
         <Input
           type="date"
-          id="expiryDate"
-          value={formInput.expiryDate}
+          id="harvestDate"
+          value={formInput.harvestDate}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              expiryDate: e.target.value,
+              harvestDate: e.target.value,
             }))
           }
           required
@@ -231,19 +229,23 @@ const Farmer = () => {
       </div>
 
       <div className="farmer-ID-container">
-        <h3> Instructions </h3>
+        <h3> Environmental information </h3>
         <Input
           type="text"
-          id="instructions"
-          value={formInput.instructions}
+          id="envInfo"
+          value={formInput.envInfo}
           onChange={(e) =>
             updateFormInput((formInput) => ({
               ...formInput,
-              instructions: e.target.value,
+              envInfo: e.target.value,
             }))
           }
           required
         />
+        <span title="the farming process, such as soil composition, weather conditions, water sources, or usage of fertilizers and pesticides.">
+        <BsInfoCircle />
+      </span>
+        {/* <ReactTooltip /> */}
       </div>
 
       <div className="submit-buttons">

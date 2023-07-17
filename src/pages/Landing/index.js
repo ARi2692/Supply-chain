@@ -60,6 +60,13 @@ const Landing = () => {
           </div>
         </Link>
       </div>
+      <div className="float-container">
+        <Link to="/product" style={{textDecoration: 'none'}}>
+          <div className="float-child-center">
+            <h2>Products</h2>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
