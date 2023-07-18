@@ -4,7 +4,9 @@ import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-
+// import { BsShieldCheck } from "react-icons/bs";
+// import { MdOutlineDoNotDisturbAlt } from "react-icons/md";
+import  Icon from "./getIcon";
 
 const GetQualityAssurance = ({ productID }) => {
   const { chain } = useNetwork();
@@ -30,6 +32,8 @@ const GetQualityAssurance = ({ productID }) => {
     console.log("Form submitted with supplier:", productID);
 
     const tx = await contract.getQualityAssurance(productID - 1);
+    console.log("qa", tx);
+    console.log("qastd", tx.qualityStandardsMeet);
     setQualityAssurance(tx);
     setQualityAssuranceFound(true);
   };
@@ -40,12 +44,14 @@ const GetQualityAssurance = ({ productID }) => {
         {qualityAssuranceFound && (
           <>
             <p>{`Quality Assurance ID : ${qualityAssurance.assuranceID}`}</p>
-            <p>{`Quality Standards Meet : ${qualityAssurance.qualityStandardsMeet}`}</p>
-            <p>{`QualityAssurance idealTemperature : ${qualityAssurance.idealTemperature}`}</p>
-            <p>{`Guidelines Meet : ${qualityAssurance.guidelinesMeet}`}</p>
-            <p>{`Compliant : ${qualityAssurance.compliant}`}</p>
-            <p>{`Audited : ${qualityAssurance.audited}`}</p>
-            <p>{`verified : ${qualityAssurance.verified}`}</p>
+            <p>
+               Quality Standards Meet : <Icon value={qualityAssurance.qualityStandardsMeet} /> 
+            </p>
+            <p>QualityAssurance idealTemperature : <Icon value={qualityAssurance.idealTemperature}/></p>
+            <p>Guidelines Meet : <Icon value={qualityAssurance.guidelinesMeet}/></p>
+            <p>Compliant : <Icon value={qualityAssurance.compliant}/></p>
+            <p>Audited : <Icon value={qualityAssurance.audited}/></p>
+            <p>verified : <Icon value={qualityAssurance.verified}/></p>
             <p>{`Certifying body ID : ${qualityAssurance.certifyingbodyID}`}</p>
             <p>{`Certification Info : ${qualityAssurance.certificationInfo}`}</p>
           </>

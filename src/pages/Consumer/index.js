@@ -9,6 +9,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/getProduct";
+import QualityAssurance from "../../components/getQualityAssurance";
+import Regulator from "../../components/getRegulator";
 
 const Input = styled.input`
   padding: 10px;
@@ -134,6 +136,8 @@ const Consumer = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
+          <QualityAssurance productID={formInput.productID} />
+          <Regulator productID={formInput.productID} />
 
           <div className="consumer-ID-container">
             <h3> Consumer ID </h3>

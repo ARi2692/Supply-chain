@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-
+import Icon from './getIcon';
 
 const GetRegulator = ({ productID }) => {
   const { chain } = useNetwork();
@@ -40,8 +40,8 @@ const GetRegulator = ({ productID }) => {
         {regulatorFound && (
           <>
             <p>{`Regulator ID : ${regulator.regulatorID}`}</p>
-            <p>{`Permit Requirements Fulfilled : ${regulator.permitRequirementsFulfilled}`}</p>
-            <p>{`Sanctions Imposed : ${regulator.sanctionsImposed}`}</p>
+            <p>Permit Requirements Fulfilled : <Icon value={regulator.permitRequirementsFulfilled}/></p>
+            <p>Sanctions Imposed : <Icon value={regulator.sanctionsImposed}/></p>
             <p>{`Analysis Info : ${regulator.analysisInfo}`}</p>
           </>
         )}
