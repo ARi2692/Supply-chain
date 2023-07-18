@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-
+import moment from 'moment'
 
 const GetProduct = ({ productID }) => {
   const { chain } = useNetwork();
@@ -43,13 +43,12 @@ const GetProduct = ({ productID }) => {
             <p>{`Product Location : ${product.origin}`}</p>
             <p>{`Product ideal Temperature : ${product.idealTemperature}`}</p>
             <p>{`Product batch Number : ${product.batchNo}`}</p>
-            <p>{`Product harvest Date : ${product.harvestDate}`}</p>
-            <p>{`Product expiry Date : ${product.expiryDate}`}</p>
+            <p>{`Product harvest Date : ${(product.harvestDate>0) ? moment(product.harvestDate).format("MM/DD/YYYY") : 0}`}</p>
+            <p>{`Product expiry Date : ${(product.expiryDate>0) ? moment(product.expiryDate).format("MM/DD/YYYY") : 0}`}</p>
             <p>{`Product total Volume : ${product.totalVolume}`}</p>
             <p>{`Product Environmental Info : ${product.envInfo}`}</p>
             <p>{`Product stage : ${product.stage}`}</p>
             {/* set stage to uint according  */}
-            {/* date format into normal */}
           </>
         )}
       </div>

@@ -41,7 +41,7 @@ const GetSupplier = ({ productID }) => {
           <>
             <p>{`Supplier ID : ${supplier.supplierID}`}</p>
             <p>{`Date delivered : ${supplier.dateTimeDelivered}`}</p>
-            <p>{`Specifications And Processing Info : ${supplier.specificationsAndProcessingInfo}`}</p>
+            <p>{`Specifications And Processing Info : ${(supplier.specificationsAndProcessingInfo>0) ? moment(supplier.specificationsAndProcessingInfo).format("MM/DD/YYYY") : 0}`}</p>
             <p>{`Temperature : ${supplier.temperature}`}</p>
             <p>{`Safe Above Age : ${supplier.safeAboveAge}`}</p>
             <p>{`Organic : ${supplier.isOrganic}`}</p>

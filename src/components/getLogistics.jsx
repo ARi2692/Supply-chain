@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-
+import moment from 'moment';
 
 const GetLogistics = ({ productID }) => {
   const { chain } = useNetwork();
@@ -43,7 +43,7 @@ const GetLogistics = ({ productID }) => {
             <p>{`Temperature : ${logistics.temperature}`}</p>
             <p>{`Volume : ${logistics.volume}`}</p>
             <p>{`Mode Of Transport : ${logistics.modeOfTransport}`}</p>
-            <p>{`Date Time Started Delivering : ${logistics.dateTimeStartedDelivering}`}</p>
+            <p>{`Date Time Started Delivering : ${(logistics.dateTimeStartedDelivering>0) ? moment(logistics.dateTimeStartedDelivering).format("MM/DD/YYYY") : 0}`}</p>
           </>
         )}
       </div>

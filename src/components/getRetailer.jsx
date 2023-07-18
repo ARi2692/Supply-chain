@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-
+import moment from 'moment';
 
 const GetRetailer = ({ productID }) => {
   const { chain } = useNetwork();
@@ -42,7 +42,7 @@ const GetRetailer = ({ productID }) => {
             <p>{`Retailer ID : ${retailer.retailerID}`}</p>
             <p>{`Temperature : ${retailer.temperature}`}</p>
             <p>{`Volume : ${retailer.volume}`}</p>
-            <p>{`Date Time Received : ${retailer.dateTimeReceived}`}</p>
+            <p>{`Date Time Received : ${(retailer.dateTimeReceived>0) ? moment(retailer.dateTimeReceived).format("MM/DD/YYYY") : 0}`}</p>
             <p>{`Compliance Info : ${retailer.complianceInfo}`}</p>
             <p>{`Promotional Info : ${retailer.promotionalInfo}`}</p>
             <p>{`Inventory Info : ${retailer.inventoryInfo}`}</p>
