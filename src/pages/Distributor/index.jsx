@@ -44,11 +44,13 @@ const Distributor = () => {
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    distributorID: 0,
     productID: 0,
+    distributorID: 0,
     temperature: 0,
     ordersReceived: 0,
     volume: 0,
+    warehouseFacilities: '',
+    productHandlingInfo: ''
   });
 
   const handleCheck = async (event) => {
@@ -68,7 +70,9 @@ const Distributor = () => {
       !formInput?.productID ||
       !formInput?.temperature ||
       !formInput?.ordersReceived ||
-      !formInput?.volume
+      !formInput?.volume ||
+      !formInput?.warehouseFacilities || 
+      !formInput?.productHandlingInfo
     ) {
       toast("Please fill all the fields!");
       return;
@@ -79,7 +83,9 @@ const Distributor = () => {
       formInput?.productID,
       formInput?.temperature,
       formInput?.ordersReceived,
-      formInput?.volume
+      formInput?.volume,
+      formInput?.warehouseFacilities,
+      formInput?.productHandlingInfo
     );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
@@ -97,7 +103,9 @@ const Distributor = () => {
       formInput?.productID,
       formInput?.temperature,
       formInput?.ordersReceived,
-      formInput?.volume
+      formInput?.volume,
+      formInput?.warehouseFacilities,
+      formInput?.productHandlingInfo
     );
 
     // transaction for contract
@@ -119,7 +127,7 @@ const Distributor = () => {
         <h3> Product ID </h3>
         <Input
           type="number"
-          id="name"
+          id="ID"
           value={formInput.productID}
           onChange={(e) =>
             updateFormInput((formInput) => ({
@@ -134,11 +142,12 @@ const Distributor = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
+
           <div className="distributor-ID-container">
             <h3> distributor ID </h3>
             <Input
               type="number"
-              id="ID"
+              id="distributorID"
               value={formInput.distributorID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
@@ -151,10 +160,10 @@ const Distributor = () => {
           </div>
 
           <div className="distributor-ID-container">
-            <h3> orders Received </h3>
+            <h3> Orders Received </h3>
             <Input
               type="number"
-              id="origin"
+              id="orders"
               value={formInput.ordersReceived}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
@@ -170,7 +179,7 @@ const Distributor = () => {
             <h3> volume </h3>
             <Input
               type="number"
-              id="batchNo"
+              id="volume"
               value={formInput.volume}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
@@ -197,6 +206,38 @@ const Distributor = () => {
               required
             />
           </div>
+
+          <div className="distributor-ID-container">
+            <h3> Warehouse Facilities </h3>
+            <Input
+              type="text"
+              id="warehouseFacilities"
+              value={formInput.warehouseFacilities}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  warehouseFacilities: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="distributor-ID-container">
+            <h3> Product Handling Info </h3>
+            <Input
+              type="text"
+              id="productHandlingInfo"
+              value={formInput.productHandlingInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  productHandlingInfo: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
         </>
       )}
 
@@ -209,7 +250,7 @@ const Distributor = () => {
 
         {!productFound && (
           <div>
-            <div className="regulator-submit">
+            <div className="distributor-submit">
               <div onClick={handleCheck}>
                 <SubmitButton type="submit">Check</SubmitButton>
               </div>
