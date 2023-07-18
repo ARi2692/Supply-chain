@@ -48,6 +48,9 @@ const Retailer = () => {
     productID: 0,
     temperature: 0,
     volume: 0,
+    complianceInfo: "",
+    promotionalInfo: "",
+    inventoryInfo: "",
   });
 
   const handleCheck = async (event) => {
@@ -66,7 +69,10 @@ const Retailer = () => {
       !formInput?.retailerID ||
       !formInput?.productID ||
       !formInput?.temperature ||
-      !formInput?.volume
+      !formInput?.volume ||
+      !formInput?.complianceInfo ||
+      !formInput?.promotionalInfo ||
+      !formInput?.inventoryInfo
     ) {
       toast("Please fill all the fields!");
       return;
@@ -76,7 +82,10 @@ const Retailer = () => {
       formInput?.retailerID,
       formInput?.productID,
       formInput?.temperature,
-      formInput?.volume
+      formInput?.volume,
+      formInput?.complianceInfo,
+      formInput?.promotionalInfo,
+      formInput?.inventoryInfo
     );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
@@ -93,7 +102,10 @@ const Retailer = () => {
       formInput?.retailerID,
       formInput?.productID,
       formInput?.temperature,
-      formInput?.volume
+      formInput?.volume,
+      formInput?.complianceInfo,
+      formInput?.promotionalInfo,
+      formInput?.inventoryInfo
     );
 
     // transaction for contract
@@ -111,7 +123,7 @@ const Retailer = () => {
         <h1>Details by Retailer</h1>
       </div>
 
-      <div className="distributor-ID-container">
+      <div className="retailer-ID-container">
         <h3> Product ID </h3>
         <Input
           type="number"
@@ -134,7 +146,7 @@ const Retailer = () => {
             <h3> retailer ID </h3>
             <Input
               type="number"
-              id="ID"
+              id="retailerID"
               value={formInput.retailerID}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
@@ -145,11 +157,11 @@ const Retailer = () => {
               required
             />
           </div>
-          <div className="distributor-ID-container">
-            <h3> volume </h3>
+          <div className="retailer-ID-container">
+            <h3> Volume </h3>
             <Input
               type="number"
-              id="batchNo"
+              id="volume"
               value={formInput.volume}
               onChange={(e) =>
                 updateFormInput((formInput) => ({
@@ -161,7 +173,7 @@ const Retailer = () => {
             />
           </div>
 
-          <div className="distributor-ID-container">
+          <div className="retailer-ID-container">
             <h3> Temperature </h3>
             <Input
               type="number"
@@ -176,6 +188,55 @@ const Retailer = () => {
               required
             />
           </div>
+
+          <div className="retailer-ID-container">
+            <h3> Compliance Info </h3>
+            <Input
+              type="text"
+              id="complianceInfo"
+              value={formInput.complianceInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  complianceInfo: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="retailer-ID-container">
+            <h3> Promotional Info </h3>
+            <Input
+              type="text"
+              id="promotionalInfo"
+              value={formInput.promotionalInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  promotionalInfo: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
+          <div className="retailer-ID-container">
+            <h3> Inventory Info </h3>
+            <Input
+              type="text"
+              id="inventoryInfo"
+              value={formInput.inventoryInfo}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  inventoryInfo: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
         </>
       )}
 

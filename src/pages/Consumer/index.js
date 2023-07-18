@@ -45,6 +45,7 @@ const Consumer = () => {
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     productID: 0,
+    consumerID: 0,
     unitsReceived: 0,
     temperature: 0,
     satisfied: false,
@@ -64,6 +65,7 @@ const Consumer = () => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
       !formInput?.productID ||
+      !formInput?.consumerID || 
       !formInput?.unitsReceived ||
       !formInput?.temperature
     ) {
@@ -74,6 +76,7 @@ const Consumer = () => {
     console.log(
       "Form submitted with consumer:",
       formInput?.productID,
+      formInput?.consumerID,
       formInput?.unitsReceived,
       formInput?.temperature,
       formInput?.satisfied
@@ -91,6 +94,7 @@ const Consumer = () => {
 
     const tx = await contract.consumerDetails(
       formInput?.productID,
+      formInput?.consumerID,
       formInput?.unitsReceived,
       formInput?.temperature,
       formInput?.satisfied
@@ -130,6 +134,23 @@ const Consumer = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
+
+          <div className="consumer-ID-container">
+            <h3> Consumer ID </h3>
+            <Input
+              type="number"
+              id="consumerID"
+              value={formInput.consumerID}
+              onChange={(e) =>
+                updateFormInput((formInput) => ({
+                  ...formInput,
+                  consumerID: e.target.value,
+                }))
+              }
+              required
+            />
+          </div>
+
           <div className="consumer-ID-container">
             <h3> units Received </h3>
             <Input
