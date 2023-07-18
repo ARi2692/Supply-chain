@@ -1,8 +1,6 @@
 import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
-// import About from "./pages/About";
-// import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Farmer from "./pages/Farmer";
 import Supplier from "./pages/Supplier";
@@ -14,7 +12,6 @@ import Consumer from "./pages/Consumer";
 import Retailer from "./pages/Retailer";
 import Products from "./pages/Products";
 
-// import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
 import "@rainbow-me/rainbowkit/styles.css";

@@ -52,7 +52,7 @@ const QualityAssurance = () => {
     guidelinesMeet: false,
     compliant: false,
     certifyingbodyID: 0,
-    certificationInfo: '',
+    certificationInfo: "",
   });
 
   const handleCheck = async (event) => {

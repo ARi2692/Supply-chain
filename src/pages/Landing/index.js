@@ -61,7 +61,7 @@ const Landing = () => {
         </Link>
       </div>
       <div className="float-container">
-        <Link to="/product" style={{textDecoration: 'none'}}>
+        <Link to="/product" style={{ textDecoration: "none" }}>
           <div className="float-child-center">
             <h2>Products</h2>
           </div>

@@ -44,7 +44,6 @@ const Regulator = () => {
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
-    // regulatorID: 0,
     productID: 0,
     regulatorID: 0,
     permitRequirementsFulfilled: false,
@@ -64,7 +63,11 @@ const Regulator = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.productID || !formInput?.regulatorID || !formInput?.analysisInfo) {
+    if (
+      !formInput?.productID ||
+      !formInput?.regulatorID ||
+      !formInput?.analysisInfo
+    ) {
       toast("Please fill all the fields!");
       return;
     }
@@ -99,8 +102,8 @@ const Regulator = () => {
     toast("Creating block... Please Wait", { icon: "👏" });
     console.log("logged !");
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
-      navigate("/");
       toast("Regulator details logged Successfully !!");
+      navigate("/");
     });
   };
 

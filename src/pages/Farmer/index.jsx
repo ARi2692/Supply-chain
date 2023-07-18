@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "./farmer.css";
 import { ethers } from "ethers";
-import { useAccount, useNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { BsInfoCircle } from "react-icons/bs";
-// import {ReactTooltip} from 'react-tooltip';
 
 const Input = styled.input`
   padding: 10px;
@@ -42,7 +41,6 @@ const SubmitButtonBack = styled.button`
 
 const Farmer = () => {
   const { chain } = useNetwork();
-  const { address } = useAccount();
   const navigate = useNavigate();
   const [formInput, updateFormInput] = useState({
     farmerID: 0,
@@ -80,8 +78,7 @@ const Farmer = () => {
     );
 
     var unixTimestamp = moment(formInput?.harvestDate).unix();
-    // console.log("time from moment", unixTimestamp)
-    
+
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
@@ -165,22 +162,6 @@ const Farmer = () => {
         />
       </div>
 
-      {/* <div className="farmer-ID-container">
-        <h3> batch Number </h3>
-        <Input
-          type="number"
-          id="batchNo"
-          value={formInput.batchNo}
-          onChange={(e) =>
-            updateFormInput((formInput) => ({
-              ...formInput,
-              batchNo: e.target.value,
-            }))
-          }
-          required
-        />
-      </div> */}
-
       <div className="farmer-ID-container">
         <h3> Harvest Date </h3>
         <Input
@@ -246,7 +227,6 @@ const Farmer = () => {
         <span title="the farming process, such as soil composition, weather conditions, water sources, or usage of fertilizers and pesticides.">
           <BsInfoCircle />
         </span>
-        {/* <ReactTooltip /> */}
       </div>
 
       <div className="submit-buttons">

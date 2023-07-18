@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "./logistics.css";
 import { ethers } from "ethers";
-import { useAccount, useNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BigNumber from "bignumber.js";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/getProduct";
 import { BsInfoCircle } from "react-icons/bs";
@@ -42,7 +41,6 @@ const SubmitButtonBack = styled.button`
 
 const Logistics = () => {
   const { chain } = useNetwork();
-  const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
@@ -105,8 +103,8 @@ const Logistics = () => {
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
-      navigate("/");
       toast("Logistics details logged Successfully !!");
+      navigate("/");
     });
   };
 

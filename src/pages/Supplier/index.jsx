@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/getProduct";
-import moment from 'moment';
+import moment from "moment";
 
 const Input = styled.input`
   padding: 10px;
@@ -52,7 +52,7 @@ const Supplier = () => {
     safeAboveAge: 0,
     batchNo: 0,
     expiryDate: 0,
-    isOrganic: false
+    isOrganic: false,
   });
 
   const handleCheck = async (event) => {
@@ -92,7 +92,7 @@ const Supplier = () => {
     );
 
     var unixTimestamp = moment(formInput?.expiryDate).unix();
-    // console.log(unixTimestamp)
+
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
@@ -103,7 +103,7 @@ const Supplier = () => {
       signer
     );
 
-    const tx = await contract.processorAndsupplierDetails(
+    const tx = await contract.processorAndSupplierDetails(
       formInput?.supplierID,
       formInput?.productID - 1,
       formInput?.temperature,
@@ -261,7 +261,6 @@ const Supplier = () => {
               required
             />
           </div>
-
         </>
       )}
 

@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 
-
 const GetSupplier = ({ productID }) => {
   const { chain } = useNetwork();
-  //   const [supplierDetails, setSupplierDetails] = useState([]);
   const [supplier, setSupplier] = useState({});
   const [supplierFound, setSupplierFound] = useState(false);
 
@@ -41,7 +38,13 @@ const GetSupplier = ({ productID }) => {
           <>
             <p>{`Supplier ID : ${supplier.supplierID}`}</p>
             <p>{`Date delivered : ${supplier.dateTimeDelivered}`}</p>
-            <p>{`Specifications And Processing Info : ${(supplier.specificationsAndProcessingInfo>0) ? moment(supplier.specificationsAndProcessingInfo).format("MM/DD/YYYY") : 0}`}</p>
+            <p>{`Specifications And Processing Info : ${
+              supplier.specificationsAndProcessingInfo > 0
+                ? moment(supplier.specificationsAndProcessingInfo).format(
+                    "MM/DD/YYYY"
+                  )
+                : 0
+            }`}</p>
             <p>{`Temperature : ${supplier.temperature}`}</p>
             <p>{`Safe Above Age : ${supplier.safeAboveAge}`}</p>
             <p>{`Organic : ${supplier.isOrganic}`}</p>

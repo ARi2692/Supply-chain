@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-// import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-// import { BsInfoCircle } from "react-icons/bs";
 import moment from "moment";
 
 const GetProduct = ({ productID }) => {
   const { chain } = useNetwork();
-  //   const [productDetails, setProductDetails] = useState([]);
   const [product, setProduct] = useState({});
   const [stageAt, setStage] = useState("");
   const [productFound, setProductFound] = useState(false);
@@ -32,36 +29,28 @@ const GetProduct = ({ productID }) => {
     console.log("Form submitted with supplier:", productID);
 
     const tx = await contract.getProduct(productID - 1);
-    // console.log(tx);
-    // console.log(("unix time ", tx.harvestDate).toString());
-    // console.log(("but format  ", moment.unix(tx.harvestDate).format('YYYY-MM-DD')));
-    // console.log(tx);
     setProduct(tx);
     setProductFound(true);
 
-    console.log(tx)
-    console.log(tx.stage)
+    console.log(tx);
+    console.log(tx.stage);
     const stage = parseInt(tx.stage);
     if (stage === 0) {
       setStage("Farmer delivered");
-    } else if(stage === 1) {
+    } else if (stage === 1) {
       setStage("Supplier processed");
-    } else if(stage === 2) {
+    } else if (stage === 2) {
       setStage("Regulator checked");
-    } else if(stage === 3) {
+    } else if (stage === 3) {
       setStage("Quality Assurances done!");
-    } else if(stage === 4) {
+    } else if (stage === 4) {
       setStage("Distributor moved");
-    } else if(stage === 5) {
+    } else if (stage === 5) {
       setStage("Logistics started delivering!");
-    } else if(stage === 6) {
+    } else if (stage === 6) {
       setStage("Retailer received!");
     }
   };
-
-  const checkProduct = () => {
-    
-  }
 
   return (
     <div>
@@ -85,7 +74,6 @@ const GetProduct = ({ productID }) => {
             <p>{`Product total Volume : ${product.totalVolume}`}</p>
             <p>{`Product Environmental Info : ${product.envInfo}`}</p>
             <p>{`Product stage : ${stageAt}`}</p>
-            {/* set stage to uint according  */}
           </>
         )}
       </div>

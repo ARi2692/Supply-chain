@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-// import { BsShieldCheck } from "react-icons/bs";
-// import { MdOutlineDoNotDisturbAlt } from "react-icons/md";
-import  Icon from "./getIcon";
+import Icon from "./getIcon";
 
 const GetQualityAssurance = ({ productID }) => {
   const { chain } = useNetwork();
-  //   const [qualityAssuranceDetails, setQualityAssuranceDetails] = useState([]);
   const [qualityAssurance, setQualityAssurance] = useState({});
   const [qualityAssuranceFound, setQualityAssuranceFound] = useState(false);
 
@@ -45,13 +41,25 @@ const GetQualityAssurance = ({ productID }) => {
           <>
             <p>{`Quality Assurance ID : ${qualityAssurance.assuranceID}`}</p>
             <p>
-               Quality Standards Meet : <Icon value={qualityAssurance.qualityStandardsMeet} /> 
+              Quality Standards Meet :{" "}
+              <Icon value={qualityAssurance.qualityStandardsMeet} />
             </p>
-            <p>QualityAssurance idealTemperature : <Icon value={qualityAssurance.idealTemperature}/></p>
-            <p>Guidelines Meet : <Icon value={qualityAssurance.guidelinesMeet}/></p>
-            <p>Compliant : <Icon value={qualityAssurance.compliant}/></p>
-            <p>Audited : <Icon value={qualityAssurance.audited}/></p>
-            <p>verified : <Icon value={qualityAssurance.verified}/></p>
+            <p>
+              QualityAssurance idealTemperature :{" "}
+              <Icon value={qualityAssurance.idealTemperature} />
+            </p>
+            <p>
+              Guidelines Meet : <Icon value={qualityAssurance.guidelinesMeet} />
+            </p>
+            <p>
+              Compliant : <Icon value={qualityAssurance.compliant} />
+            </p>
+            <p>
+              Audited : <Icon value={qualityAssurance.audited} />
+            </p>
+            <p>
+              verified : <Icon value={qualityAssurance.verified} />
+            </p>
             <p>{`Certifying body ID : ${qualityAssurance.certifyingbodyID}`}</p>
             <p>{`Certification Info : ${qualityAssurance.certificationInfo}`}</p>
           </>

@@ -42,7 +42,6 @@ const SubmitButtonBack = styled.button`
 
 const Consumer = () => {
   const { chain } = useNetwork();
-  const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
@@ -67,7 +66,7 @@ const Consumer = () => {
     event.preventDefault(); // Prevents form submission and page refresh
     if (
       !formInput?.productID ||
-      !formInput?.consumerID || 
+      !formInput?.consumerID ||
       !formInput?.unitsReceived ||
       !formInput?.temperature
     ) {
@@ -105,8 +104,8 @@ const Consumer = () => {
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
-      navigate("/");
       toast("Consumer details logged Successfully !!");
+      navigate("/");
     });
   };
 

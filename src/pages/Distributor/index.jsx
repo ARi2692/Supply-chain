@@ -40,7 +40,6 @@ const SubmitButtonBack = styled.button`
 
 const Distributor = () => {
   const { chain } = useNetwork();
-  const { address } = useAccount();
   const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
@@ -49,8 +48,8 @@ const Distributor = () => {
     temperature: 0,
     ordersReceived: 0,
     volume: 0,
-    warehouseFacilities: '',
-    productHandlingInfo: ''
+    warehouseFacilities: "",
+    productHandlingInfo: "",
   });
 
   const handleCheck = async (event) => {
@@ -71,7 +70,7 @@ const Distributor = () => {
       !formInput?.temperature ||
       !formInput?.ordersReceived ||
       !formInput?.volume ||
-      !formInput?.warehouseFacilities || 
+      !formInput?.warehouseFacilities ||
       !formInput?.productHandlingInfo
     ) {
       toast("Please fill all the fields!");
@@ -111,8 +110,8 @@ const Distributor = () => {
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
-      navigate("/");
       toast("Distributor details logged Successfully !!");
+      navigate("/");
     });
   };
 

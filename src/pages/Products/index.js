@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "./product.css";
-// import { ethers } from "ethers";
-import { useAccount, useNetwork } from "wagmi";
-// import { getConfigByChain } from "../../config";
-// import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Product from "../../components/getProduct";
+import Consumer from "../../components/getConsumer";
+import QualityAssurance from "../../components/getQualityAssurance";
+import Regulator from "../../components/getRegulator";
 
 const Input = styled.input`
   padding: 10px;
@@ -39,9 +38,6 @@ const SubmitButtonBack = styled.button`
 `;
 
 const Products = () => {
-  const { chain } = useNetwork();
-  const { address } = useAccount();
-  const navigate = useNavigate();
   const [productFound, setProductFound] = useState(false);
   const [formInput, updateFormInput] = useState({
     productID: 0,
@@ -83,6 +79,9 @@ const Products = () => {
       {productFound && (
         <>
           <Product productID={formInput.productID} />
+          <QualityAssurance productID={formInput.productID} />
+          <Regulator productID={formInput.productID} />
+          <Consumer productID={formInput.productID} />
         </>
       )}
 

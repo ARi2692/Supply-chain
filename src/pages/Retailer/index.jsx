@@ -111,8 +111,8 @@ const Retailer = () => {
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
-      navigate("/");
       toast("Retailer details logged Successfully !!");
+      navigate("/");
     });
   };
 
@@ -236,7 +236,6 @@ const Retailer = () => {
               required
             />
           </div>
-
         </>
       )}
 

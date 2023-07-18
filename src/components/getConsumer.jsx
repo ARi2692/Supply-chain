@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { ethers } from "ethers";
 import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 
-
 const GetConsumer = ({ productID }) => {
   const { chain } = useNetwork();
-  //   const [consumerDetails, setConsumerDetails] = useState([]);
   const [consumer, setConsumer] = useState({});
   const [consumerFound, setConsumerFound] = useState(false);
 
