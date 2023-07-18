@@ -64,7 +64,7 @@ const Regulator = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevents form submission and page refresh
-    if (!formInput?.productID) {
+    if (!formInput?.productID || !formInput?.regulatorID || !formInput?.analysisInfo) {
       toast("Please fill all the fields!");
       return;
     }
@@ -88,7 +88,7 @@ const Regulator = () => {
     );
 
     const tx = await contract.regulatorDetails(
-      formInput?.productID,
+      formInput?.productID - 1,
       formInput?.regulatorID,
       formInput?.permitRequirementsFulfilled,
       formInput?.sanctionsImposed,

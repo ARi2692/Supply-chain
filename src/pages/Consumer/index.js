@@ -93,7 +93,7 @@ const Consumer = () => {
     );
 
     const tx = await contract.consumerDetails(
-      formInput?.productID,
+      formInput?.productID - 1,
       formInput?.consumerID,
       formInput?.unitsReceived,
       formInput?.temperature,

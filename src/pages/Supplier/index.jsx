@@ -51,7 +51,7 @@ const Supplier = () => {
     specificationsAndProcessingInfo: "",
     safeAboveAge: 0,
     batchNo: 0,
-    expiryDate: new Date(),
+    expiryDate: 0,
     isOrganic: false
   });
 
@@ -74,8 +74,7 @@ const Supplier = () => {
       !formInput?.specificationsAndProcessingInfo ||
       !formInput?.safeAboveAge ||
       !formInput?.batchNo ||
-      !formInput?.expiryDate ||
-      !formInput?.isOrganic
+      !formInput?.expiryDate
     ) {
       toast("Please fill all the fields!");
       return;
@@ -106,7 +105,7 @@ const Supplier = () => {
 
     const tx = await contract.processorAndsupplierDetails(
       formInput?.supplierID,
-      formInput?.productID,
+      formInput?.productID - 1,
       formInput?.temperature,
       formInput?.specificationsAndProcessingInfo,
       formInput?.safeAboveAge,

@@ -100,7 +100,7 @@ const Distributor = () => {
 
     const tx = await contract.distributorDetails(
       formInput?.distributorID,
-      formInput?.productID,
+      formInput?.productID - 1,
       formInput?.temperature,
       formInput?.ordersReceived,
       formInput?.volume,

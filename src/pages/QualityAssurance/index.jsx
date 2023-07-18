@@ -99,7 +99,7 @@ const QualityAssurance = () => {
     );
 
     const tx = await contract.qualityAssuranceAnalystDetails(
-      formInput?.productID,
+      formInput?.productID - 1,
       formInput?.assuranceID,
       formInput?.qualityStandardsMeet,
       formInput?.audited,

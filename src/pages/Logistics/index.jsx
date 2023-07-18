@@ -95,7 +95,7 @@ const Logistics = () => {
 
     const tx = await contract.logisticsDetails(
       formInput?.logisticsID,
-      formInput?.productID,
+      formInput?.productID - 1,
       formInput?.temperature,
       formInput?.modeOfTransport,
       formInput?.volume

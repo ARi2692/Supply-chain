@@ -48,7 +48,7 @@ const Farmer = () => {
     farmerID: 0,
     productName: "",
     origin: "",
-    harvestDate: new Date(),
+    harvestDate: 0,
     totalVolume: 0,
     temperatureLimit: 0,
     envInfo: "",
