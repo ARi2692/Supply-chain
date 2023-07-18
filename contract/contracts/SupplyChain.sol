@@ -218,6 +218,7 @@ contract SupplyChain {
             sanctionsImposed: _sanctionsImposed,
             analysisInfo: _analysisInfo
         });
+        products[_productID].stage = 2;
     }
 
     /**
@@ -251,6 +252,7 @@ contract SupplyChain {
             certifyingbodyID: _certifyingbodyID,
             certificationInfo: _certificationInfo
         });
+        products[_productID].stage = 3;
     }
 
     /**
@@ -281,7 +283,7 @@ contract SupplyChain {
             warehouseFacilities: _warehouseFacilities,
             productHandlingInfo: _productHandlingInfo
         });
-        products[_productID].stage = 3;
+        products[_productID].stage = 4;
     }
 
     /**
@@ -307,7 +309,7 @@ contract SupplyChain {
             modeOfTransport: _modeOfTransport,
             dateTimeStartedDelivering: block.timestamp
         });
-        products[_productID].stage = 4;
+        products[_productID].stage = 5;
     }
 
     /**
@@ -337,7 +339,7 @@ contract SupplyChain {
             promotionalInfo: _promotionalInfo,
             inventoryInfo: _inventoryInfo
         });
-        products[_productID].stage = 5;
+        products[_productID].stage = 6;
     }
 
     /**

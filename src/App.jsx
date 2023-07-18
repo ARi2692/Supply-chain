@@ -12,12 +12,12 @@ import QualityAssurance from "./pages/QualityAssurance";
 import Logistics from "./pages/Logistics";
 import Consumer from "./pages/Consumer";
 import Retailer from "./pages/Retailer";
-
+import Products from "./pages/Products";
 
 // import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   darkTheme,
@@ -32,13 +32,12 @@ import {
   polygonMumbai,
 } from "wagmi/chains";
 
-
 const { chains, publicClient } = configureChains(
   [mainnet, polygon, optimism, arbitrum, polygonMumbai],
   [publicProvider()]
 );
 
-const projectId = '44800374dd37fb0134462d19a95e5c0a';
+const projectId = "44800374dd37fb0134462d19a95e5c0a";
 const { connectors } = getDefaultWallets({
   appName: "My RainbowKit App",
   projectId,
@@ -69,10 +68,15 @@ function App() {
             <Route exact path="/supplier" element={<Supplier />} />
             <Route exact path="/regulator" element={<Regulator />} />
             <Route exact path="/distributor" element={<Distributor />} />
-            <Route exact path="/qualityAssurance" element={<QualityAssurance />} />
+            <Route
+              exact
+              path="/qualityAssurance"
+              element={<QualityAssurance />}
+            />
             <Route exact path="/logistics" element={<Logistics />} />
             <Route exact path="/retailer" element={<Retailer />} />
             <Route exact path="/consumer" element={<Consumer />} />
+            <Route exact path="/product" element={<Products />} />
           </Routes>
         </RainbowKitProvider>
       </WagmiConfig>

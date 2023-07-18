@@ -5,11 +5,12 @@ import { ethers } from "ethers";
 import { useAccount, useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import BigNumber from "bignumber.js";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/getProduct";
+import { BsInfoCircle } from "react-icons/bs";
 
 const Input = styled.input`
   padding: 10px;
@@ -103,12 +104,10 @@ const Logistics = () => {
 
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
-    await provider
-      .waitForTransaction(tx.hash, 1, 150000)
-      .then(() => {
-        navigate("/");
-        toast("Logistics details logged Successfully !!");
-      });
+    await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
+      navigate("/");
+      toast("Logistics details logged Successfully !!");
+    });
   };
 
   return (
@@ -199,6 +198,14 @@ const Logistics = () => {
               }
               required
             />
+            <span
+              title="1 - Road,
+            2 - train,
+            3 - water,
+            4 - Air"
+            >
+              <BsInfoCircle />
+            </span>
           </div>
         </>
       )}

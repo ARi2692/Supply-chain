@@ -91,8 +91,8 @@ const Supplier = () => {
       formInput?.isOrganic
     );
 
-    var unixTimestamp = moment(formInput?.expiryDate, "YYYY.MM.DD").unix();
-
+    var unixTimestamp = moment(formInput?.expiryDate).unix();
+    // console.log(unixTimestamp)
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();

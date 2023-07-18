@@ -79,8 +79,9 @@ const Farmer = () => {
       formInput?.envInfo
     );
 
-    var unixTimestamp = moment(formInput?.harvestDate, "YYYY.MM.DD").unix();
-
+    var unixTimestamp = moment(formInput?.harvestDate).unix();
+    // console.log("time from moment", unixTimestamp)
+    
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
@@ -243,8 +244,8 @@ const Farmer = () => {
           required
         />
         <span title="the farming process, such as soil composition, weather conditions, water sources, or usage of fertilizers and pesticides.">
-        <BsInfoCircle />
-      </span>
+          <BsInfoCircle />
+        </span>
         {/* <ReactTooltip /> */}
       </div>
 
