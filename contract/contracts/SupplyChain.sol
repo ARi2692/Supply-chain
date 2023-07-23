@@ -19,6 +19,8 @@ contract SupplyChain {
         uint256 idealTemperature; // for range of temperature to be maintained
         string envInfo; // message instructions storagecond
         uint256 stage;
+        uint256 unitsReceivedWithinStd;
+        uint256 unitsReceivedOutsideStd;
     }
 
     // mapped to productID
@@ -89,14 +91,6 @@ contract SupplyChain {
         string inventoryInfo;
     }
 
-    // check will be made regarding dateTimeReceived, temperature, standards and all
-    // mapped to productID
-    struct Consumer {
-        uint256 consumerID;
-        uint256 unitsReceivedWithinStd;
-        uint256 unitsReceivedOutsideStd;
-    }
-
     // array of products
     Product[] private products;
 
@@ -121,8 +115,8 @@ contract SupplyChain {
     // productIndex to Retailer
     mapping(uint256 => Retailer) private retailers;
 
-    // productIndex to consumer
-    mapping(uint256 => Consumer) private customers;
+    // consumerID - productID - uints bought
+    mapping(uint256 => mapping(uint256 => uint256)) customers;
 
     modifier productPresent(uint256 productID) {
         require(products.length > productID, "Product doesnot exist");
@@ -156,11 +150,13 @@ contract SupplyChain {
                 origin: _origin,
                 batchNo: 0,
                 harvestDate: _harvestDate,
-                expiryDate: 0, 
+                expiryDate: 0,
                 totalVolume: _totalVolume,
                 idealTemperature: _temperatureLimit,
                 envInfo: _envInfo,
-                stage: 0
+                stage: 0,
+                unitsReceivedWithinStd: 0,
+                unitsReceivedOutsideStd: 0
             })
         );
         farmers[products.length - 1] = Farmer({
@@ -171,12 +167,12 @@ contract SupplyChain {
 
     /**
      * @notice supplier inputs the details after processing
-     * @dev supplier inputs details 
+     * @dev supplier inputs details
      * @param _supplierID - Supplier ID
      * @param _productID - the product ID
      * @param _temperature - the temperature at the time of delivery
      * @param _specificationsAndProcessingInfo - specifications And Processing Info
-     * @param _safeAboveAge - safe above the age 
+     * @param _safeAboveAge - safe above the age
      * @param _batchNo - the batch number of the product
      * @param _expiryDate - the expiry date
      * @param _isOrganic - is organic
@@ -190,8 +186,11 @@ contract SupplyChain {
         uint256 _batchNo,
         uint256 _expiryDate,
         bool _isOrganic
-    ) external productPresent(_productID)  {
-        require(products[_productID].stage == 0, "Product not yet authorized for processing");
+    ) external productPresent(_productID) {
+        require(
+            products[_productID].stage == 0,
+            "Product not yet authorized for processing"
+        );
         suppliers[_productID] = Supplier({
             supplierID: _supplierID,
             dateTimeDelivered: block.timestamp,
@@ -233,7 +232,7 @@ contract SupplyChain {
 
     /**
      * @notice qualityAssuranceAnalyst inputs the details after regulator
-     * @dev qualityAssuranceAnalyst inputs details 
+     * @dev qualityAssuranceAnalyst inputs details
      * @param _productID - product ID
      * @param _assuranceID - assurance ID
      * @param _qualityStandardsMeet - _quality Standards Meet
@@ -241,8 +240,8 @@ contract SupplyChain {
      * @param _verified - verified or not?
      * @param _guidelinesMeet - guidelines Meet or not?
      * @param _compliant - compliant or not?
-     * @param _certifyingbodyID - certifyingbody ID 
-     * @param _certificationInfo - certification Info 
+     * @param _certifyingbodyID - certifyingbody ID
+     * @param _certificationInfo - certification Info
      */
     function qualityAssuranceAnalystDetails(
         uint256 _productID,
@@ -255,7 +254,10 @@ contract SupplyChain {
         uint256 _certifyingbodyID,
         string memory _certificationInfo
     ) external productPresent(_productID) {
-        require(products[_productID].stage == 2, "Product not for quality assurance");
+        require(
+            products[_productID].stage == 2,
+            "Product not for quality assurance"
+        );
         qualityAssuranceAnalysts[_productID] = QualityAssurance({
             assuranceID: _assuranceID,
             qualityStandardsMeet: _qualityStandardsMeet,
@@ -378,71 +380,115 @@ contract SupplyChain {
         uint256 _temperature,
         bool _satisfied
     ) external productPresent(_productID) {
-        require(products[_productID].stage == 6, "Product not for consumer yet!");
-        customers[_productID].consumerID = _consumerID;
+        require(
+            products[_productID].stage == 6,
+            "Product not for consumer yet!"
+        );
+        customers[_consumerID][_productID] += _unitsReceived;
         if (
             _temperature < products[_productID].idealTemperature &&
             products[_productID].expiryDate > block.timestamp &&
             _satisfied
         ) {
-            customers[_productID].unitsReceivedWithinStd += _unitsReceived;
+            products[_productID].unitsReceivedWithinStd += _unitsReceived;
         } else {
-            customers[_productID].unitsReceivedOutsideStd += _unitsReceived;
+            products[_productID].unitsReceivedOutsideStd += _unitsReceived;
         }
     }
 
     // all getters functions
     function getProduct(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Product memory productDetails) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (Product memory productDetails)
+    {
         productDetails = products[_productID];
     }
 
     function getFarmer(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Farmer memory farmer) {
+    ) external view productPresent(_productID) returns (Farmer memory farmer) {
         farmer = farmers[_productID];
     }
 
     function getSupplier(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Supplier memory supplier) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (Supplier memory supplier)
+    {
         supplier = suppliers[_productID];
     }
 
     function getRegulator(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Regulator memory regulator) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (Regulator memory regulator)
+    {
         regulator = regulators[_productID];
     }
 
     function getQualityAssurance(
         uint256 _productID
-    ) productPresent(_productID) external view returns (QualityAssurance memory qualityAssurance) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (QualityAssurance memory qualityAssurance)
+    {
         qualityAssurance = qualityAssuranceAnalysts[_productID];
     }
 
     function getDistributor(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Distributor memory distributor) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (Distributor memory distributor)
+    {
         distributor = distributors[_productID];
     }
 
     function getLogistics(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Logistics memory trackLogistics) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (Logistics memory trackLogistics)
+    {
         trackLogistics = logistics[_productID];
     }
 
     function getRetailer(
         uint256 _productID
-    ) productPresent(_productID) external view returns (Retailer memory retailer) {
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (Retailer memory retailer)
+    {
         retailer = retailers[_productID];
     }
 
     function getConsumer(
-        uint256 _productID
-    ) productPresent(_productID) external view returns (Consumer memory consumer) {
-        consumer = customers[_productID];
+        uint256 _productID,
+        uint256 _consumerID
+    )
+        external
+        view
+        productPresent(_productID)
+        returns (uint256 noOfUnitsBought)
+    {
+        noOfUnitsBought = customers[_consumerID][_productID];
     }
 }

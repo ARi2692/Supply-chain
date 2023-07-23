@@ -4,7 +4,7 @@ import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../config";
 import SupplyChain from "../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 
-const GetConsumer = ({ productID }) => {
+const GetConsumer = ({ productID, consumerID }) => {
   const { chain } = useNetwork();
   const [consumer, setConsumer] = useState({});
   const [consumerFound, setConsumerFound] = useState(false);
@@ -26,7 +26,7 @@ const GetConsumer = ({ productID }) => {
 
     console.log("Form submitted with supplier:", productID);
 
-    const tx = await contract.getConsumer(productID - 1);
+    const tx = await contract.getConsumer(productID - 1, consumerID);
     setConsumer(tx);
     setConsumerFound(true);
   };
@@ -34,11 +34,10 @@ const GetConsumer = ({ productID }) => {
   return (
     <div>
       <div>
+
         {consumerFound && (
           <>
-            <p>{`Consumer ID : ${consumer.consumerID}`}</p>
-            <p>{`Units Received Within Std : ${consumer.unitsReceivedWithinStd}`}</p>
-            <p>{`Units Received Outside Std : ${consumer.unitsReceivedOutsideStd}`}</p>
+            <p>{`Units Bought by the consumer : ${consumer.unitsBought}`}</p>
           </>
         )}
       </div>
