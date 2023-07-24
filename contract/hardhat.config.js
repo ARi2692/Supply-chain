@@ -13,9 +13,6 @@ module.exports = {
       accounts: [YOUR_PRIVATE_KEY]
     },
   },
-  etherscan: {
-    apiKey: process.env.POLYGONSCAN_API_KEY
-  },
   paths: {
     artifacts: '../src/artifacts',
   },
