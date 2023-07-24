@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "./logistics.css";
 import { ethers } from "ethers";
@@ -57,7 +57,6 @@ const Logistics = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
@@ -73,19 +72,10 @@ const Logistics = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with logistics:",
-      formInput?.logisticsID,
-      formInput?.productID,
-      formInput?.temperature,
-      formInput?.modeOfTransport,
-      formInput?.volume
-    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,

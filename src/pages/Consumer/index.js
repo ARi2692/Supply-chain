@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "./consumer.css";
 import { ethers } from "ethers";
-import { useAccount, useNetwork } from "wagmi";
+import { useNetwork } from "wagmi";
 import { getConfigByChain } from "../../config";
 import SupplyChain from "../../artifacts/contracts/SupplyChain.sol/SupplyChain.json";
 import { toast, ToastContainer } from "react-toastify";
@@ -58,7 +58,6 @@ const Consumer = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
@@ -70,23 +69,13 @@ const Consumer = () => {
       !formInput?.unitsReceived ||
       !formInput?.temperature
     ) {
-      console.log("arree");
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with consumer:",
-      formInput?.productID,
-      formInput?.consumerID,
-      formInput?.unitsReceived,
-      formInput?.temperature,
-      formInput?.satisfied
-    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,

@@ -57,7 +57,6 @@ const Regulator = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
@@ -71,19 +70,10 @@ const Regulator = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with regulator:",
-      formInput?.productID,
-      formInput?.regulatorID,
-      formInput?.permitRequirementsFulfilled,
-      formInput?.sanctionsImposed,
-      formInput?.analysisInfo
-    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,
@@ -100,7 +90,6 @@ const Regulator = () => {
 
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
-    console.log("logged !");
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
       toast("Regulator details logged Successfully !!");
       navigate("/");

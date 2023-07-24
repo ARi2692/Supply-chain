@@ -59,7 +59,6 @@ const Retailer = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
@@ -77,21 +76,10 @@ const Retailer = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with retailer:",
-      formInput?.retailerID,
-      formInput?.productID,
-      formInput?.temperature,
-      formInput?.volume,
-      formInput?.complianceInfo,
-      formInput?.promotionalInfo,
-      formInput?.inventoryInfo
-    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,

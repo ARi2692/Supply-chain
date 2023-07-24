@@ -66,23 +66,12 @@ const Farmer = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with farmer:",
-      formInput?.farmerID,
-      formInput?.productName,
-      formInput?.origin,
-      formInput?.harvestDate,
-      formInput?.totalVolume,
-      formInput?.temperatureLimit,
-      formInput?.envInfo
-    );
 
     var unixTimestamp = moment(formInput?.harvestDate).unix();
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,

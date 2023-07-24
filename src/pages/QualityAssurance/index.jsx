@@ -61,7 +61,6 @@ const QualityAssurance = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
@@ -76,22 +75,10 @@ const QualityAssurance = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with qualityAssurance:",
-      formInput?.assuranceID,
-      formInput?.qualityStandardsMeet,
-      formInput?.audited,
-      formInput?.verified,
-      formInput?.guidelinesMeet,
-      formInput?.compliant,
-      formInput?.certifyingbodyID,
-      formInput?.certificationInfo
-    );
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,

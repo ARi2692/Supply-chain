@@ -61,7 +61,6 @@ const Supplier = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log("Form submitted with supplier:", formInput?.productID);
     setProductFound(true);
   };
 
@@ -79,24 +78,12 @@ const Supplier = () => {
       toast("Please fill all the fields!");
       return;
     }
-    console.log(
-      "Form submitted with supplier:",
-      formInput?.supplierID,
-      formInput?.productID,
-      formInput?.temperature,
-      formInput?.specificationsAndProcessingInfo,
-      formInput?.safeAboveAge,
-      formInput?.batchNo,
-      formInput?.expiryDate,
-      formInput?.isOrganic
-    );
 
     var unixTimestamp = moment(formInput?.expiryDate).unix();
 
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,

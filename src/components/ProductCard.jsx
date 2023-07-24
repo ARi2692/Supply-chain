@@ -36,7 +36,6 @@ const ProductCard = ({ productID }) => {
       <div>
         <p>{`Product ID : ${productID}`}</p>
         <p>{`Product Name : ${productName}`}</p>
-        {`/product/${productID}/${productStage}`}
         <Link to={`/product/${productID}/${productStage}`}>
           <button>Details</button>
         </Link>
