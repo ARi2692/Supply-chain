@@ -103,7 +103,6 @@ const Supplier = () => {
 
     // transaction for contract
     toast("Creating block... Please Wait", { icon: "👏" });
-    console.log("logged !");
     await provider.waitForTransaction(tx.hash, 1, 150000).then(() => {
       navigate("/");
       toast("Supplier details logged Successfully !!");
