@@ -12,28 +12,25 @@ const GetProduct = ({ productID }) => {
   const [productFound, setProductFound] = useState(false);
 
   useEffect(() => {
-    getAllProducts();
+    if (productID !== undefined) {
+      getAllProducts();
+    }
   }, [productID]);
 
   const getAllProducts = async () => {
     await window.ethereum.send("eth_requestAccounts"); // opens up metamask extension and connects Web2 to Web3
     const provider = new ethers.providers.Web3Provider(window.ethereum); //create provider
     const signer = provider.getSigner();
-    console.log(getConfigByChain(chain?.id)[0].supplyChainAddress);
     const contract = new ethers.Contract(
       getConfigByChain(chain?.id)[0].supplyChainAddress,
       SupplyChain.abi,
       signer
     );
 
-    console.log("Form submitted with supplier:", productID);
-
     const tx = await contract.getProduct(productID - 1);
     setProduct(tx);
     setProductFound(true);
 
-    console.log(tx);
-    console.log(tx.stage);
     const stage = parseInt(tx.stage);
     if (stage === 0) {
       setStage("Farmer delivered");

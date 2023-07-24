@@ -11,6 +11,7 @@ import Logistics from "./pages/Logistics";
 import Consumer from "./pages/Consumer";
 import Retailer from "./pages/Retailer";
 import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 import { publicProvider } from "wagmi/providers/public";
 
@@ -74,6 +75,11 @@ function App() {
             <Route exact path="/retailer" element={<Retailer />} />
             <Route exact path="/consumer" element={<Consumer />} />
             <Route exact path="/product" element={<Products />} />
+            <Route
+              exact
+              path="/product/:productID/:productStage"
+              element={<ProductDetails />}
+            />
           </Routes>
         </RainbowKitProvider>
       </WagmiConfig>

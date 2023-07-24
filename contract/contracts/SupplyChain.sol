@@ -408,6 +408,10 @@ contract SupplyChain {
         productDetails = products[_productID];
     }
 
+    function getProductsLength() external view returns (uint256 noOfProducts) {
+        noOfProducts = products.length;
+    }
+
     function getFarmer(
         uint256 _productID
     ) external view productPresent(_productID) returns (Farmer memory farmer) {
